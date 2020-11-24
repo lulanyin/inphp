@@ -1,0 +1,33 @@
+{
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "lulanyin",
+      "email": "me@lanyin.lu"
+    }
+  ],
+  "require": {
+    "inphp/db" : "dev-master",
+    "inphp/smarty": "dev-master",
+    "inphp/annotation": "dev-main",
+    "inphp/service": "dev-main"
+  },
+  "require-dev": {
+    "swoft/swoole-ide-helper": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Inphp\\" : "inphp/",
+      "app\\" : "app/"
+    },
+    "files": [
+      "app/helper/functions.php"
+    ]
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
+    }
+  }
+}
