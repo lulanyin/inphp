@@ -18,3 +18,17 @@ function assign(string $name, $value){
 function getAssignData(){
     return \Inphp\Service\Http\Container::get("smarty_assign_data");
 }
+
+/**
+ * 响应JSON
+ * @param int $error
+ * @param string $message
+ * @param null $data
+ */
+function response($error = 0, $message = 'success', $data = null){
+    \Inphp\Service\Http\Container::getResponse()->withJson([
+        "error" => $error,
+        "message" => $message,
+        "data"  => $data
+    ])->send();
+}

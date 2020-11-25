@@ -1,16 +1,18 @@
 <?php
 namespace app\http\web;
 
+use app\annotation\Method;
 use Inphp\DB\DB;
 use Inphp\Service\Http\Session;
 
+/**
+ * @Method("AJAX_GET")
+ * Class index
+ * @package app\http\web
+ */
 class index
 {
     public function index(){
-        echo(__METHOD__).PHP_EOL;
-        echo "times :".time().PHP_EOL;
-        //赋值变量给模板使用，使用的是smarty模板引擎
-        assign("version", '0.1');
-        //$list = DB::from("user")->select("uids, username, phone")->get(5);
+        response(1, "请求错误");
     }
 }
