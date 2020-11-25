@@ -12,6 +12,8 @@ define("ROOT",              dirname(__DIR__));
 define("BASE_PATH",         ROOT);
 //核心方法、类等文件存放的文件夹名
 define("RESOURCE",          ROOT."/resources");
+//视图文件
+define("VIEW", RESOURCE."/view");
 //runtime目录
 define("RUNTIME",           ROOT."/runtime");
 //cache 目录
@@ -32,7 +34,7 @@ $define = [
     "resources"     => "{root}/resources",
     "runtime"       => "{root}/runtime",
     "configs"       => "{root}/config",
-    "views"         => "{resources}/views",
+    "view"          => "{resources}/view",
     "cache"         => "{runtime}/cache",
     "logs"          => "{runtime}/logs",
     "public"        => "{root}/public",

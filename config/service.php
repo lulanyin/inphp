@@ -45,7 +45,7 @@ return [
             //中间键，请实现 IMiddleWare 接口
             "middleware"    => [
                 //请求开始处理之前，比如说，实现注解执行
-                "before_request"    => [
+                "on_request"        => [
 
                 ],
                 //请求已处理，但在控制器未执行，比如说，处理控制器的注解
@@ -90,14 +90,14 @@ return [
                 //PID文件保存位置，文件夹必须存在
                 'pid_file'              => RUNTIME.'/http_service.pid',
                 //worker 数量，一般按CPU核心数量 * 2
-                'worker_num'            => 2,
+                'worker_num'            => 4,
                 //最大请求数量，按需，不可超过系统设置
-                'max_request'           => 24,
+                'max_request'           => 256,
                 //最大连接数量
-                'max_connection'        => 128,
+                'max_connection'        => 1024,
                 //
                 'daemonize'             => 0,
-                'dispatch_mode'         => 2,
+                'dispatch_mode'         => 3,
                 //日志文件，文件夹必须存在
                 'log_file'              => RUNTIME.'/http_service.log',
                 //默认异步进程数量
@@ -121,6 +121,14 @@ return [
                 ],
                 //如果是使用临时文件，保存的位置在哪里？
                 "file_path" => RUNTIME."/session"
+            ],
+            //中间键
+            "middleware"    => [
+                //服务启动成功
+                "onWorkerStart"     => [
+                    //实现数据库连接池
+                    \app\middleware\MysqlPool::class
+                ]
             ]
         ]
     ]

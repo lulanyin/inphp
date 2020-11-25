@@ -10,7 +10,9 @@
     "inphp/db" : "dev-master",
     "inphp/smarty": "dev-master",
     "inphp/annotation": "dev-main",
-    "inphp/service": "dev-main"
+    "inphp/service": "dev-main",
+    "ext-pdo": "*",
+    "ext-json": "*"
   },
   "require-dev": {
     "swoft/swoole-ide-helper": "dev-master"

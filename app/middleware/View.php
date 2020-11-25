@@ -8,11 +8,17 @@ use Inphp\Service\IMiddleWare;
 
 class View implements IMiddleWare
 {
-    public static function process(Response $response, $controller = null, string $method = null)
+    public function __construct()
+    {
+
+    }
+
+    public function process(Response $response, $controller = null, string $method = null)
     {
         // TODO: Implement process() method.
         //获取客户端请求数据
-        if($response->content == null){
+        if($response->content == null && $response->content_type == 'default'){
+
             $status = $response->status;
             $smarty_config = Config::get("private.smarty");
             $smarty = new \Smarty();
@@ -36,14 +42,26 @@ class View implements IMiddleWare
             foreach ($dataList as $key => $value){
                 $smarty->assign($key, $value);
             }
-
+            //控制器返回的数据
+            if(!empty($response->controller_result)){
+                $smarty->assign('data', $response->controller_result);
+            }
             //判断文件是否存在
             $service_config = Container::getConfig();
+            //视图位置
             $view_dir = $service_config['router']['http']['view'];
-            $view_file = $view_dir.$status->path."/".$status->view;
+            //首个斜杠去掉
+            $file = stripos($status->view, "/") === 0 ? substr($status->view, 1) : $status->view;
+            $view_file = $view_dir.$status->path."/".$file;
+            //双斜杠转换为单斜杠
+            $view_file = str_replace("//", "/", $view_file);
             if(file_exists($view_file)){
                 $smarty->setTemplateDir($view_dir.$status->path);
-                $response->withContent($smarty->fetch($status->view));
+                try{
+                    $response->withHTML($smarty->fetch($file));
+                }catch (\Exception $exception){
+                    $response->withText($exception->getMessage());
+                }
             }else{
                 $response->withStatus(404);
             }

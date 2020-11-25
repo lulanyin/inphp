@@ -6,7 +6,13 @@ use Inphp\Service\IMiddleWare;
 
 class Annotation implements IMiddleWare
 {
-    public static function process(Response $response, $controller = null, string $method = null)
+
+    public function __construct()
+    {
+
+    }
+
+    public function process(Response $response, $controller = null, string $method = null)
     {
         // TODO: Implement process() method.
         if($controller){

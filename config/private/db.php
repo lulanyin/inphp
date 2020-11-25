@@ -23,7 +23,7 @@ return [
         //密码
         'password'  => '12345678',
         //数据库名
-        'database'  => 'inphp'
+        'database'  => 'pch'
     ],
     //读分离，若定义了，select 会优先使用
     //"read"          => ["数组值请参考上方的 default 连接"],
@@ -47,5 +47,10 @@ return [
         'persistent' => false,
         //保存的所有 key 的前缀
         'prefix'     => 'redis_pre_',
+    ],
+    //swoole
+    "swoole"    => [
+        //连接池最大数量
+        "pools"     => 10
     ]
 ];
