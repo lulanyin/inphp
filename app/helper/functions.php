@@ -26,9 +26,20 @@ function getAssignData(){
  * @param null $data
  */
 function response($error = 0, $message = 'success', $data = null){
-    \Inphp\Service\Http\Container::getResponse()->withJson([
+    \Inphp\Service\Http\Container::getResponse()->withJson(json($error, $message, $data))->send();
+}
+
+/**
+ * 返回一组数据，用于JSON响应
+ * @param int $error
+ * @param string $message
+ * @param null $data
+ * @return array
+ */
+function json($error = 0, $message = 'success', $data = null){
+    return [
         "error" => $error,
         "message" => $message,
         "data"  => $data
-    ])->send();
+    ];
 }

@@ -35,7 +35,7 @@ return [
             ],
             //配置独立域名，key 对应上方 list 的 value，值是独立域名，会自动识别使用该域名访问时，默认的访问入口。
             "domain" => [
-                //"api"   => "api.xxx.com"
+                "api"   => "api.inphp.app"
             ],
             //跨域，有其它需求，请使用中间键实现拦截IP、域名等等
             "access_origin" => [
@@ -63,7 +63,7 @@ return [
     ],
     "cookie" => [
         //HTTPS
-        "secure"   => false,
+        "secure"   => true,
         //http only
         "http_only"=> true,
         //混淆加密字符串
@@ -94,7 +94,7 @@ return [
                 //最大请求数量，按需，不可超过系统设置
                 'max_request'           => 256,
                 //最大连接数量
-                'max_connection'        => 1024,
+                'max_connection'        => 256,
                 //
                 'daemonize'             => 0,
                 'dispatch_mode'         => 3,

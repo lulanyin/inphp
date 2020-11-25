@@ -52,8 +52,7 @@ class Method implements IAnnotation
                 $ajax = $ajax ? $ajax : stripos($str, "ajax")!==false;
             }
             if($ajax){
-                $http_x_requested_with = $_SERVER['HTTP_X_REQUESTED_WITH'] ?? null;
-                if($http_x_requested_with == "XMLHttpRequest" && $bool){
+                if($client->ajax && $bool){
                     //
                     return;
                 }
