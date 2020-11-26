@@ -44,11 +44,11 @@ return [
             ],
             //中间键，请实现 IMiddleWare 接口
             "middleware"    => [
-                //请求开始处理之前，比如说，实现注解执行
+                //请求开始处理之前，比如说，实现注解执行，此时只有response对象，控制器并未实例化
                 "on_request"        => [
 
                 ],
-                //请求已处理，但在控制器未执行，比如说，处理控制器的注解
+                //请求已处理，控制器已实例化，但未执行，比如说，可以在此实现控制器的注解
                 "before_execute"    => [
                     //执行前，进行注解处理
                     \app\middleware\Annotation::class
@@ -127,7 +127,7 @@ return [
                 //服务启动成功
                 "onWorkerStart"     => [
                     //实现数据库连接池
-                    \app\middleware\MysqlPool::class
+                    \app\middleware\OnWorkerStart::class
                 ]
             ]
         ]

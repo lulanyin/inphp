@@ -22,7 +22,7 @@ class Method implements IAnnotation
      * ALL, GET, POST, AJAX_GET, AJAX_POST
      * @var array
      */
-    public $type = [];
+    public $type = "ALL";
 
     /**
      * Method constructor.
@@ -31,32 +31,22 @@ class Method implements IAnnotation
     public function __construct(array $values)
     {
         if(isset($values['value'])){
-            $this->type = $values['value'];
+            $this->type = strtoupper($values['value']);
         }
-        $this->type = is_string($this->type) ? [$this->type] : $this->type;
+        $this->type = in_array($this->type, ["GET", "POST", "AJAX_GET", "AJAX_POST"]) ? $this->type : "ALL";
     }
 
     public function process($class, string $target = null, string $targetType = null)
     {
         // TODO: Implement process() method.
-        if(strtolower($this->type[0])=="all"){
+        if(strtolower($this->type)=="all"){
             return;
         }
         $client = Container::getClient();
-        $bool = $client->method !== null;
-        if($bool){
-            $ajax = false;
-            $bool = false;
-            foreach ($this->type as $str){
-                $bool = $bool ? $bool : stripos($str, $client->method)!==false;
-                $ajax = $ajax ? $ajax : stripos($str, "ajax")!==false;
-            }
-            if($ajax){
-                if($client->ajax && $bool){
-                    //
-                    return;
-                }
-            }elseif($bool){
+        $list = explode("_", $this->type);
+        if(in_array($client->method, $list)){
+            $ajax = in_array("AJAX", $list);
+            if(!$ajax || ($ajax && $client->ajax)){
                 return;
             }
         }

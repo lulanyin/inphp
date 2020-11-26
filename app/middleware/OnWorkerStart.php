@@ -6,22 +6,17 @@
  */
 namespace app\middleware;
 
-use Inphp\DB\DB;
-use Inphp\DB\Redis;
 use Inphp\DB\Swoole\Pool;
 use Inphp\Service\IWorkerStartMiddleWare;
 use Swoole\Http\Server;
 
-class MysqlPool implements IWorkerStartMiddleWare
+class OnWorkerStart implements IWorkerStartMiddleWare
 {
     public function process(Server $server, int $worker_id)
     {
         // TODO: Implement process() method.
-        //初始化
-        echo "{$worker_id} mysql pool start".PHP_EOL;
+        //初始化连接池
+        echo "worker[{$worker_id}] mysql pool start".PHP_EOL;
         Pool::init();
-        //初始化Redis
-        $config = DB::getConfig();
-        Redis::init($config['redis']['select']);
     }
 }
