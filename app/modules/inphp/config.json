@@ -1,0 +1,15 @@
+{
+  "http"  : {
+    "home"  : "http",
+    "default" : "admin",
+    "list" : {
+      "api" : "api",
+      "admin" : "admin"
+    },
+    "view" : "view",
+    "view_suffix" : "html",
+    "response_content_type" : {
+      "api" : "application/json"
+    }
+  }
+}
