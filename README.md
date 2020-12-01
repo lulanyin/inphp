@@ -1,7 +1,7 @@
 # inphp
 php服务框架
 
-##相关说明
+## 相关说明
 ```php
 //常量配置文件：
 ROOT."/config/define.php";
@@ -13,9 +13,6 @@ ROOT."/config/private/db.php";
 ROOT."/config/private/smarty.php";
 //Smarty模板自定义标签，可以自行更名，对应常量：SMARTY_TAGS_PARSER
 ROOT."/app/smarty_tags_parser";
-
-//如果需要使用swoole服务，请执行：
-php bin/
 ```
 
 ## 使用swoole
