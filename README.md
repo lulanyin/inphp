@@ -1,9 +1,34 @@
 # inphp
 php服务框架
 
+##相关说明
+```php
+//常量配置文件：
+ROOT."/config/define.php";
+//服务配置文件，位于：
+ROOT."/config/private/service.php";
+//Mysql、Redis配置文件
+ROOT."/config/private/db.php";
+//Smarty模板引擎配置文件
+ROOT."/config/private/smarty.php";
+//Smarty模板自定义标签，可以自行更名，对应常量：SMARTY_TAGS_PARSER
+ROOT."/app/smarty_tags_parser";
+
+//如果需要使用swoole服务，请执行：
+php bin/
+```
+
+## 使用swoole
+```
+//运行http服务
+php bin/inphp http.start
+
+//运行websocket服务
+php bin/inphp ws.start
+```
 
 ## Nginx 站点配置
-### 1. 使用PHP-FPM
+### 1. 使用php-fpm 或 php-fast-cgi
 ```apacheconfig
 server{
     #端口
