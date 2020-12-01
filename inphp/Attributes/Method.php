@@ -4,11 +4,11 @@
  * 2020/11/25 3:01 下午
  * 主要检测请求方式
  */
-namespace app\annotation;
+namespace Inphp\Attributes;
 
 use Doctrine\Common\Annotations\Annotation\Target;
 use Inphp\Annotation\IAnnotation;
-use Inphp\Service\Http\Container;
+use Inphp\Service\Context;
 
 /**
  * @Annotation()
@@ -42,7 +42,7 @@ class Method implements IAnnotation
         if(strtolower($this->type)=="all"){
             return;
         }
-        $client = Container::getClient();
+        $client = Context::getClient();
         $list = explode("_", $this->type);
         if(in_array($client->method, $list)){
             $ajax = in_array("AJAX", $list);

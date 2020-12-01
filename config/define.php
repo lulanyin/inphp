@@ -2,6 +2,9 @@
 /**
  * 此文件为最重要的文件，系统环境就靠这文件配置
  */
+//版本
+define("INPHP_VERSION", "0.1");
+//兼容
 define('MAGIC_QUOTES_GPC', ini_set("magic_quotes_runtime",0) ? true : false);
 //时区
 date_default_timezone_set("PRC");
@@ -24,9 +27,9 @@ define("APP_PATH",               ROOT."/app");
 //添加支持自定义Smarty标签
 define('SMARTY_TAGS_PARSER', APP_PATH."/smarty_tags_parser");
 //站点配置
-define("SERVICE_CONFIG", ROOT."/config/service.php");
+define("INPHP_SERVICE_CONFIG", ROOT."/config/private/service.php");
 //数据库配置文件
-define("DB_CONFIG", ROOT."/config/private/db.php");
+define("INPHP_DB_CONFIG", ROOT."/config/private/db.php");
 //常量数组
 $define = [
     "root"          => ROOT,

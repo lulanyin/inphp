@@ -8,9 +8,9 @@
   ],
   "require": {
     "inphp/db" : "dev-master",
-    "inphp/smarty": "dev-master",
-    "inphp/annotation": "dev-main",
-    "inphp/service": "dev-main",
+    "inphp/smarty": "0.9.0",
+    "inphp/annotation": "0.9.0",
+    "inphp/service": "0.9.0",
     "ext-pdo": "*",
     "ext-json": "*"
   },
@@ -23,7 +23,7 @@
       "app\\" : "app/"
     },
     "files": [
-      "app/helper/functions.php"
+      "inphp/Helper/functions.php"
     ]
   },
   "repositories": {

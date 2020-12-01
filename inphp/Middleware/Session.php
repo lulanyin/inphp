@@ -1,10 +1,10 @@
 <?php
-namespace app\middleware;
+namespace Inphp\Middleware;
 
 use Inphp\DB\Cache;
-use Inphp\Service\ISessionMiddleWare;
+use Inphp\Service\Middleware\ISessionMiddleware;
 
-class Session implements ISessionMiddleWare
+class Session implements ISessionMiddleware
 {
     /**
      * 当前的Session id

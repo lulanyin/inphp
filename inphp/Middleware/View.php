@@ -1,19 +1,20 @@
 <?php
-namespace app\middleware;
+namespace Inphp\Middleware;
 
 use Inphp\Config;
-use Inphp\Service\Http\Container;
+use Inphp\Service\Context;
 use Inphp\Service\Http\Response;
-use Inphp\Service\IMiddleWare;
+use Inphp\Service\Middleware\IServerOnResponseMiddleware;
+use Inphp\Service\Service;
 
-class View implements IMiddleWare
+class View implements IServerOnResponseMiddleware
 {
     public function __construct()
     {
 
     }
 
-    public function process(Response $response, $controller = null, string $method = null)
+    public function process(Response $response, $controller = null, $method = null)
     {
         // TODO: Implement process() method.
         //获取客户端请求数据
@@ -33,7 +34,7 @@ class View implements IMiddleWare
             $smarty->assign("configs", $configs);
             $smarty->assign("method", $response->status->method);
             //客户端数据
-            $client = Container::getClient();
+            $client = Context::getClient();
             $smarty->assign("get", $client->get);
             $smarty->assign("post", $client->post);
             //控制器赋值的模板数据
@@ -47,9 +48,10 @@ class View implements IMiddleWare
                 $smarty->assign('data', $response->controller_result);
             }
             //判断文件是否存在
-            $service_config = Container::getConfig();
+            $service_config = \Inphp\Service\Config::get(Service::HTTP);
             //视图位置
-            $view_dir = $service_config['router']['http']['view'];
+            $view_dir = $service_config['view'];
+            $view_dir = strrchr($view_dir, "/") == "/" ? $view_dir : "{$view_dir}/";
             //首个斜杠去掉
             $file = stripos($status->view, "/") === 0 ? substr($status->view, 1) : $status->view;
             $view_file = $view_dir.$status->path."/".$file;

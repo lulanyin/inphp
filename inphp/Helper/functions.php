@@ -1,14 +1,15 @@
 <?php
+use Inphp\Service\Context;
 /**
  * 赋值变量到模板使用
  * @param string $name
  * @param $value
  */
 function assign(string $name, $value){
-    $data = \Inphp\Service\Http\Container::get("smarty_assign_data");
+    $data = Context::get("smarty_assign_data");
     $data = $data ?? [];
     $data[$name] = $value;
-    \Inphp\Service\Http\Container::set("smarty_assign_data", $data);
+    Context::set("smarty_assign_data", $data);
 }
 
 /**
@@ -16,7 +17,7 @@ function assign(string $name, $value){
  * @return mixed|null
  */
 function getAssignData(){
-    return \Inphp\Service\Http\Container::get("smarty_assign_data");
+    return Context::get("smarty_assign_data");
 }
 
 /**
@@ -26,7 +27,7 @@ function getAssignData(){
  * @param null $data
  */
 function response($error = 0, $message = 'success', $data = null){
-    \Inphp\Service\Http\Container::getResponse()->withJson(json($error, $message, $data))->send();
+    Context::getResponse()->withJson(json($error, $message, $data))->send();
 }
 
 /**

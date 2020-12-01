@@ -2,6 +2,7 @@
 namespace Inphp;
 
 use Inphp\Util\Arr;
+use Inphp\Util\File;
 
 /**
  * 配置
@@ -25,7 +26,7 @@ class Config {
      * @return array|bool
      */
     private static function loadPathConfig(string $path){
-        $files = \Inphp\Service\Util\File::getFiles(self::get("define.configs")."/{$path}", "php", null);
+        $files = File::getFiles(self::get("define.configs")."/{$path}", "php", null);
         if(!empty($files)){
             $configs = [];
             foreach ($files as $file){
