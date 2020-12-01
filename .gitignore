@@ -4,3 +4,4 @@
 vendor/*
 composer.lock
 runtime/*
+app/smarty_tags_parser/Compiler/*
