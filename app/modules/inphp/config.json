@@ -1,15 +1,24 @@
 {
+  "name" : "官方系统模块",
+  "id"  : "inphp",
   "http"  : {
     "home"  : "http",
-    "default" : "admin",
+    "default" : "admin1314",
     "list" : {
       "api" : "api",
-      "admin" : "admin"
+      "admin1314" : "admin"
     },
     "view" : "view",
     "view_suffix" : "html",
     "response_content_type" : {
       "api" : "application/json"
+    }
+  },
+  "ws" : {
+    "home" : "ws",
+    "default" : null,
+    "list" : {
+      "chat" : "chat"
     }
   }
 }

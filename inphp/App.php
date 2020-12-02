@@ -2,7 +2,10 @@
 namespace Inphp;
 
 use Inphp\Annotation\Annotation;
+use Inphp\Object\ModuleObject;
+use Inphp\Service\Context;
 use Inphp\Service\Service;
+use Swoole\Coroutine;
 
 class App
 {
@@ -21,7 +24,7 @@ class App
         !defined("SWOOLE") && define("SWOOLE", "swoole");
         !defined("FPM") && define("FPM", "php-fpm");
         //定义服务类型
-        !defined("SERVICE_PROVIDER") && define("SERVICE_PROVIDER", $swoole ? SWOOLE : FPM);
+        !defined("INPHP_SERVICE_PROVIDER") && define("INPHP_SERVICE_PROVIDER", $swoole ? SWOOLE : FPM);
         //ws
         $ws = $swoole && $ws;
         //swoole 数据库连接池
@@ -37,5 +40,35 @@ class App
         $service = new Service($swoole, $ws);
         self::$server = $service->server;
         return $service;
+    }
+
+    /**
+     * 临时上下文数据
+     * @var array
+     */
+    private static $context = [];
+
+    /**
+     * 保存数据到上下文
+     * @param ModuleObject $module
+     */
+    public static function setModule(ModuleObject $module){
+        if(Context::isSwoole()){
+            Coroutine::getContext()["app_module"] = $module;
+        }else{
+            self::$context["app_module"] = $module;
+        }
+    }
+
+    /**
+     * 获取当前所用模块对象
+     * @return ModuleObject
+     */
+    public static function getModule(){
+        if(Context::isSwoole()){
+            return Coroutine::getContext()["app_module"] ?? null;
+        }else{
+            return self::$context["app_module"] ?? null;
+        }
     }
 }

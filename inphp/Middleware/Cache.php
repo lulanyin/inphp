@@ -24,7 +24,7 @@ class Cache implements ICacheMiddleware
     public function get(string $name, $default)
     {
         // TODO: Implement get() method.
-        return \Inphp\DB\Cache::get($name, $default);
+        return \Inphp\DB\Cache::select(1)->get($name, $default);
     }
 
     /**
@@ -35,7 +35,7 @@ class Cache implements ICacheMiddleware
     public function set(string $name, $value)
     {
         // TODO: Implement set() method.
-        \Inphp\DB\Cache::set($name, $value);
+        \Inphp\DB\Cache::select(1)->set($name, $value);
     }
 
     /**
@@ -45,7 +45,7 @@ class Cache implements ICacheMiddleware
     public function remove(string $name)
     {
         // TODO: Implement remove() method.
-        \Inphp\DB\Cache::remove($name);
+        \Inphp\DB\Cache::select(1)->rm($name);
     }
 
     /**
@@ -55,6 +55,6 @@ class Cache implements ICacheMiddleware
     public function clean(string $name)
     {
         // TODO: Implement clean() method.
-        \Inphp\DB\Cache::clear();;
+        \Inphp\DB\Cache::select(1)->clear();
     }
 }

@@ -5,7 +5,6 @@ use Inphp\Config;
 use Inphp\Service\Context;
 use Inphp\Service\Http\Response;
 use Inphp\Service\Middleware\IServerOnResponseMiddleware;
-use Inphp\Service\Service;
 
 class View implements IServerOnResponseMiddleware
 {
@@ -47,18 +46,16 @@ class View implements IServerOnResponseMiddleware
             if(!empty($response->controller_result)){
                 $smarty->assign('data', $response->controller_result);
             }
-            //判断文件是否存在
-            $service_config = \Inphp\Service\Config::get(Service::HTTP);
             //视图位置
-            $view_dir = $service_config['view'];
+            $view_dir = $status->view_dir;
             $view_dir = strrchr($view_dir, "/") == "/" ? $view_dir : "{$view_dir}/";
             //首个斜杠去掉
             $file = stripos($status->view, "/") === 0 ? substr($status->view, 1) : $status->view;
-            $view_file = $view_dir.$status->path."/".$file;
+            $view_file = $view_dir."/".$file;
             //双斜杠转换为单斜杠
             $view_file = str_replace("//", "/", $view_file);
             if(file_exists($view_file)){
-                $smarty->setTemplateDir($view_dir.$status->path);
+                $smarty->setTemplateDir($view_dir);
                 try{
                     $response->withHTML($smarty->fetch($file));
                 }catch (\Exception $exception){

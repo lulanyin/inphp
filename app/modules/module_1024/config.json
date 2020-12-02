@@ -1,0 +1,16 @@
+{
+  "name" : "第三方模块",
+  "id"  : "module_1024",
+  "http"  : {
+    "home"  : "http",
+    "default" : "",
+    "list" : {
+
+    },
+    "view" : "view",
+    "view_suffix" : "html",
+    "response_content_type" : {
+      "api" : "application/json"
+    }
+  }
+}

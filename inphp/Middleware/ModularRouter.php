@@ -18,10 +18,9 @@ use Inphp\Service\Middleware\IRouterMiddleware;
 class ModularRouter implements IRouterMiddleware
 {
 
-    public function process(string $uri = '', string $method = null, $group = 'http')
+    public function process(string $host, string $uri = '', string $method = null, $group = 'http')
     {
         // TODO: Implement process() method.
-        $modular = new Modular();
-        return $modular->process($uri, $method, $group);
+        return Modular::process($host, $uri, $method, $group);
     }
 }

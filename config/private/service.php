@@ -98,7 +98,10 @@ return [
 
             ],
             //路由处理
-            'on_router'     => [],
+            'on_router'     => [
+                //模块化路由
+                \Inphp\Middleware\ModularRouter::class
+            ],
             //控制器已初始化，但未执行前
             'before_execute'=> [
                 //处理注解
@@ -212,7 +215,10 @@ return [
             'on_router'     => [],
             //------------------------------ 控制器
             //控制器已初始化，但未执行前
-            'before_execute'=> [],
+            'before_execute'=> [
+                //处理注解
+                \Inphp\Middleware\Annotation::class
+            ],
             //向客户端发送消息之前（注意，这里指的是执行 $server->send()）
             'before_send'   => [],
             //----------------------------- 异步投递
