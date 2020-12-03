@@ -1,9 +1,23 @@
 <?php
+// +----------------------------------------------------------------------
+// | INPHP
+// +----------------------------------------------------------------------
+// | Copyright (c) 2020 https://inphp.cc All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( https://opensource.org/licenses/MIT )
+// +----------------------------------------------------------------------
+// | Author: lulanyin <me@lanyin.lu>
+// +----------------------------------------------------------------------
 namespace Inphp\Middleware;
 
 use Inphp\DB\Cache;
 use Inphp\Service\Middleware\ISessionMiddleware;
 
+/**
+ * Session 中间键处理， 这里使用 redis 实现 swoole http server 的 session， 常规 session 不会回调这里
+ * Class Session
+ * @package Inphp\Middleware
+ */
 class Session implements ISessionMiddleware
 {
     /**

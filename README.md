@@ -18,10 +18,10 @@ ROOT."/app/smarty_tags_parser";
 ## 使用swoole
 ```
 //运行http服务
-php bin/inphp http.start
+php bin/inphp http
 
 //运行websocket服务
-php bin/inphp ws.start
+php bin/inphp ws
 ```
 
 ## Nginx 站点配置

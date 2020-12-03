@@ -1,4 +1,13 @@
 <?php
+// +----------------------------------------------------------------------
+// | INPHP
+// +----------------------------------------------------------------------
+// | Copyright (c) 2020 https://inphp.cc All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( https://opensource.org/licenses/MIT )
+// +----------------------------------------------------------------------
+// | Author: lulanyin <me@lanyin.lu>
+// +----------------------------------------------------------------------
 namespace Inphp\Middleware;
 
 use Inphp\Config;
@@ -6,6 +15,12 @@ use Inphp\Service\Context;
 use Inphp\Service\Http\Response;
 use Inphp\Service\Middleware\IServerOnResponseMiddleware;
 
+/**
+ * 视图处理，仅在 http
+ * 这里使用了 Smarty 模板引擎
+ * Class View
+ * @package Inphp\Middleware
+ */
 class View implements IServerOnResponseMiddleware
 {
     public function __construct()

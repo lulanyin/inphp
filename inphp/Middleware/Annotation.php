@@ -1,13 +1,22 @@
 <?php
-/**
- * Create By Hunter
- * 2020/12/1 4:14 下午
- *
- */
+// +----------------------------------------------------------------------
+// | INPHP
+// +----------------------------------------------------------------------
+// | Copyright (c) 2020 https://inphp.cc All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( https://opensource.org/licenses/MIT )
+// +----------------------------------------------------------------------
+// | Author: lulanyin <me@lanyin.lu>
+// +----------------------------------------------------------------------
 namespace Inphp\Middleware;
 
 use Inphp\Service\Middleware\IServerOnResponseMiddleware;
 
+/**
+ * 处理控制器的注解
+ * Class Annotation
+ * @package Inphp\Middleware
+ */
 class Annotation implements IServerOnResponseMiddleware{
 
     public function process($response, $controller = null, $method = null)

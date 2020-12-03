@@ -8,9 +8,9 @@
   ],
   "require": {
     "inphp/db" : "dev-master",
-    "inphp/smarty": "0.9.0",
+    "inphp/smarty": "0.9.1",
     "inphp/annotation": "0.9.0",
-    "inphp/service": "0.9.1",
+    "inphp/service": "dev-main",
     "ext-pdo": "*",
     "ext-json": "*"
   },

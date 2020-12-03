@@ -37,6 +37,7 @@ return [
             //热更新监听的文件夹
             'listen_dir'=> [
                 APP_PATH."/http",
+                APP_PATH."/modules",
                 VIEW
             ],
             //热更新版本缓存文件
@@ -176,7 +177,8 @@ return [
             'enable'    => true,
             //热更新监听的文件夹
             'listen_dir'=> [
-                APP_PATH."/ws"
+                APP_PATH."/ws",
+                APP_PATH."/modules"
             ],
             //热更新版本缓存文件
             'version_file' => RUNTIME."/ws_version.txt",
@@ -212,7 +214,10 @@ return [
             //收到客户端消息
             'on_message'    => [],
             //事件路由处理
-            'on_router'     => [],
+            'on_router'     => [
+                //模块化路由
+                \Inphp\Middleware\ModularRouter::class
+            ],
             //------------------------------ 控制器
             //控制器已初始化，但未执行前
             'before_execute'=> [

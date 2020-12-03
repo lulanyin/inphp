@@ -9,7 +9,11 @@ namespace app\modules\inphp\http\admin;
 class index
 {
     public function index(){
+        assign("player", "me");
 
+        \SmartyTags::add("myTag", function ($params = []){
+            return "name = ".($params['name'] ?? 'not set');
+        });
     }
 
     public function list(){
