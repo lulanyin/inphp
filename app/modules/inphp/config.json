@@ -1,6 +1,9 @@
 {
   "name" : "官方系统模块",
   "id"  : "inphp",
+  "install" : {
+
+  },
   "http"  : {
     "home"  : "http",
     "default" : "admin1314",

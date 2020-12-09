@@ -26,6 +26,7 @@ class App
     /**
      * 应用初始化
      * @param bool $swoole
+     * @param bool $ws
      * @return Service
      */
     public static function init(bool $swoole = false, $ws = false){
@@ -49,6 +50,47 @@ class App
         $service = new Service($swoole, $ws);
         self::$server = $service->server;
         return $service;
+    }
+
+    /**
+     * 执行命令
+     * @return ICommend
+     */
+    public static function cmd(){
+        //
+        echo "+---------------------+\r\n";
+        echo "| ♪♪♪♪♪♪ INPHP ♪♪♪♪♪♪ |\r\n";
+        echo "| Think you for using |\r\n";
+        echo "|    commend part     |\r\n";
+        echo "+---------------------+\r\n";
+        $argv = $_SERVER['argv'] ?? [];
+        if(count($argv)>=2){
+            $prefix = "app\cmd\\";
+            $commend = $prefix.str_replace(".", "\\", $argv[1]);
+            if(class_exists($commend)){
+                $params = count($argv)>2 ? array_slice($argv, 2) : [];
+                if(!empty($params)){
+                    $array = [];
+                    foreach($params as $param){
+                        $arr = explode("=", $param);
+                        $array[$arr[0]] = $arr[1] ?? true;
+                        $array[$arr[0]] = $array[$arr[0]]=="true" ? true : ($array[$arr[0]]=="false" ? false : $array[$arr[0]]);
+                    }
+                    $params = $array;
+                }
+                $cmd = new $commend($params);
+                if($cmd instanceof ICommend){
+                    echo date("Y/m/d H:i:s")." running ... ".PHP_EOL;
+                    return $cmd;
+                }else{
+                    exit("not a commend".PHP_EOL);
+                }
+            }else{
+                exit ("not commend found {$commend}".PHP_EOL);
+            }
+        }else{
+            exit ("not commend".PHP_EOL);
+        }
     }
 
     /**

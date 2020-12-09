@@ -11,11 +11,42 @@ ROOT."/config/private/service.php";
 ROOT."/config/private/db.php";
 //Smarty模板引擎配置文件
 ROOT."/config/private/smarty.php";
-//Smarty模板自定义标签，可以自行更名，对应常量：SMARTY_TAGS_PARSER
+//Smarty模板自定义标签，可以自行更名，对应常量：SMARTY_TAGS_PARSER，可以不使用
 ROOT."/app/smarty_tags_parser";
+//模块化配置
+ROOT."/config/private/modular.php";
 ```
 
-## 使用swoole
+## 使用模块化路由配置
+```php
+//首先在服务配置文件中，添加 on_router 中间键
+//模块化路由
+'on_router' => [
+    \Inphp\Middleware\ModularRouter::class
+];
+
+
+//然后配置 ROOT."/config/private/modular.php"; 文件
+return [
+    //入口
+    'home'  => 'app\modules\\',
+    //默认
+    'default' => 'inphp',
+    //列表，key 的值，请勿重复，并且，请勿与默认模块里边的版块名重复，以免发生未知错误
+    'list'  => [
+        //inphp 官方模块，带有
+        'inphp' => "inphp",
+        //第三方
+        "1024"  => "module_1024"
+    ],
+    //域名绑定列表
+    'domains' => [
+
+    ]
+];
+```
+
+## 使用swoole拓展启动服务
 ```
 //运行http服务
 php bin/inphp http
