@@ -6,17 +6,18 @@
  */
 namespace app\modules\inphp\http\admin;
 
+/**
+ * 控制台默认入口，需要登录后台的权限
+ *
+ * Class index
+ * @package app\modules\inphp\http\admin
+ */
 class index
 {
+    /**
+     * 默认入口
+     */
     public function index(){
-        assign("player", "me");
 
-        \SmartyTags::add("myTag", function ($params = []){
-            return "name = ".($params['name'] ?? 'not set');
-        });
-    }
-
-    public function list(){
-        echo "admin/list";
     }
 }

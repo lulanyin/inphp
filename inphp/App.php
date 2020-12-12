@@ -44,8 +44,6 @@ class App
             $pools = $pools >=5 && $pools <= 20 ? ceil($pools) : 5;
             define("INPHP_DB_SWOOLE_POOLS", $pools);
         }
-        //实现注解
-        Annotation::start();
         //返回服务对象
         $service = new Service($swoole, $ws);
         self::$server = $service->server;
@@ -94,21 +92,11 @@ class App
     }
 
     /**
-     * 临时上下文数据
-     * @var array
-     */
-    private static $context = [];
-
-    /**
      * 保存数据到上下文
      * @param ModuleObject $module
      */
     public static function setModule(ModuleObject $module){
-        if(Context::isSwoole()){
-            Coroutine::getContext()["app_module"] = $module;
-        }else{
-            self::$context["app_module"] = $module;
-        }
+        globals("app_module", $module);
     }
 
     /**
@@ -116,10 +104,6 @@ class App
      * @return ModuleObject
      */
     public static function getModule(){
-        if(Context::isSwoole()){
-            return Coroutine::getContext()["app_module"] ?? null;
-        }else{
-            return self::$context["app_module"] ?? null;
-        }
+        return globals("app_module");
     }
 }

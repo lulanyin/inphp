@@ -47,6 +47,7 @@ class View implements IServerOnResponseMiddleware
             $configs = Config::get("public");
             $smarty->assign("configs", $configs);
             $smarty->assign("method", $response->status->method);
+            $smarty->assign("domain", Config::get("domain"));
             //客户端数据
             $client = Context::getClient();
             $smarty->assign("get", $client->get);
@@ -66,6 +67,9 @@ class View implements IServerOnResponseMiddleware
             $view_dir = strrchr($view_dir, "/") == "/" ? $view_dir : "{$view_dir}/";
             //首个斜杠去掉
             $file = stripos($status->view, "/") === 0 ? substr($status->view, 1) : $status->view;
+            //后缀
+            $file = in_array(strrchr($file, "."), [".html", ".htm", ".tpl"]) ? $file : "{$file}.html";
+            //组合路径
             $view_file = $view_dir."/".$file;
             //双斜杠转换为单斜杠
             $view_file = str_replace("//", "/", $view_file);

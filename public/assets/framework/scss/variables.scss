@@ -1,0 +1,185 @@
+//定义页面变量
+:root, page{
+
+  //定义像素单位
+  --pixel-default : 1px;
+  //按照小程序，750rpx的屏幕宽度，常规1个像素的宽度，使用2rpx计算，像素比是1:2
+  --pixel : 1px;
+
+  //字体默认大小
+  --font-size: 12px;
+  //
+  --default-text: var(--font-size);
+  //最大号字体
+  --maximum-text: calc(var(--font-size) * 3);
+  //更大号字体
+  --bigger-text: calc(var(--font-size) * 2);
+  //大号字体
+  --large-text: calc(var(--font-size) * 1.4);
+  //小号字体
+  --small-text: calc(var(--font-size) * 0.8);
+  //更小号字体
+  --tiny-text: calc(var(--font-size) * 0.7);
+
+  //填充、边距
+  --padding-width : calc(var(--pixel) * 10);
+  --half-padding-width : calc(var(--pixel) * 5);
+  --margin-width : calc(var(--pixel) * 10);
+  --half-margin-width : calc(var(--pixel) * 5);
+  --border-radius-width: calc(var(--pixel) * 5);
+
+  //背景色
+  --background-color: #f9f9f9;
+  --background-color-deep: #eeeeee;
+
+  //常规边框色，由于用了可变色，也许实际用处不大
+  --border-color: #eeeeee;
+
+
+  /**
+    以下是颜色变量，
+   */
+
+  //主色
+  --color-primary : #3880ff;
+  --color-primary-primary : #ffffff;
+  --color-primary-content : #ffffff;
+  --color-primary-active : #2775ff;
+  --color-primary-active-content : #ffffff;
+  --color-primary-light : #508fff;
+  --color-primary-light-content : #d4e3ff;
+  --color-primary-light-active : #3880ff;
+  --color-primary-light-active-content : #ffffff;
+
+  //次色
+  --color-secondary : #3dc2ff;
+  --color-secondary-primary : #ffffff;
+  --color-secondary-content : #ffffff;
+  --color-secondary-active : #50c8ff;
+  --color-secondary-active-content : #ffffff;
+  --color-secondary-light : #36abe0;
+  --color-secondary-light-content : #ffffff;
+  --color-secondary-light-active : #50c8ff;
+  --color-secondary-light-active-content : #ffffff;
+
+  //警告危险
+  --color-danger : #e4393c;
+  --color-danger-primary : #ffffff;
+  --color-danger-content : #ffffff;
+  --color-danger-active : #e75356;
+  --color-danger-active-content : #ffffff;
+  --color-danger-light : #e4393c;
+  --color-danger-light-content : #ffffff;
+  --color-danger-light-active : #e75356;
+  --color-danger-light-active-content : #ffffff;
+
+  //浅色，白色
+  --color-light : #ffffff;
+  --color-light-primary : var(--color-primary);
+  --color-light-content : #222222;
+  --color-light-active : #eeeeee;
+  --color-light-active-content : #666666;
+  --color-light-light : #ffffff;
+  --color-light-light-content : #999999;
+  --color-light-light-active : #f9f9f9;
+  --color-light-light-active-content : #666666;
+
+  //深色，黑色
+  --color-dark : #222222;
+  --color-dark-primary : #ffffff;
+  --color-dark-content : #ffffff;
+  --color-dark-active : #2b2b2b;
+  --color-dark-active-content : #ffffff;
+  --color-dark-light : #222222;
+  --color-dark-light-content : #ffffff;
+  --color-dark-light-active : #2b2b2b;
+  --color-dark-light-active-content : #ffffff;
+
+  //
+  --color-medium : #999999;
+  --color-medium-primary : var(--color-primary);
+  --color-medium-content : #ffffff;
+  --color-medium-active : #aaaaaa;
+  --color-medium-active-content : #ffffff;
+  --color-medium-light : #999999;
+  --color-medium-light-content : #ffffff;
+  --color-medium-light-active : #aaaaaa;
+  --color-medium-light-active-content : #ffffff;
+
+  //金色
+  --color-gold-deep: #e8ae5d;
+  --color-gold-deep-primary: #ffffff;
+  --color-gold-deep-content: #ffffff;
+  --color-gold-deep-active: #f8dca1;
+  --color-gold-deep-active-content: #ffffff;
+  --color-gold-deep-light: #f8dca1;
+  --color-gold-deep-light-content: #ffffff;
+  --color-gold-deep-light-active : #ffe6b0;
+  --color-gold-deep-light-active-content: #fff;
+
+  //浅金色
+  --color-gold: #f8dca1;
+  --color-gold-primary: #222222;
+  --color-gold-content: #222222;
+  --color-gold-active: #ffe6b0;
+  --color-gold-active-content: #222222;
+  --color-gold-light: #ffe6b0;
+  --color-gold-light-content: #666666;
+  --color-gold-light-active: #ffeac0;
+  --color-gold-light-active-content: #222222;
+
+  //iPhone X安全高度
+  --safe-area-inset-left : env(safe-area-inset-left);
+  --safe-area-inset-right : env(safe-area-inset-right);
+  --safe-area-inset-top : env(safe-area-inset-top);
+  --safe-area-inset-bottom : env(safe-area-inset-bottom);
+
+  //基本颜色，用于自动变色
+  //基础色
+  --color-base : var(--color-light);
+  --color-base-primary : var(--color-light-primary);
+  //基础色里边的内容色
+  --color-base-content : var(--color-light-content);
+  --color-base-active : var(--color-light-active);
+  --color-base-active-content : var(--color-light-active-content);
+  --color-base-light : var(--color-light-light);
+  --color-base-light-content : var(--color-light-light-content);
+  --color-base-light-active : var(--color-light-light-active);
+  --color-base-light-active-content : var(--color-light-light-active-content);
+
+
+  //微信色
+  --color-wechat: #00C800;
+  --color-wechat-primary: #ffffff;
+  --color-wechat-content: #ffffff;
+  --color-wechat-light: #02ef02;
+  --color-wechat-light-content: #ffffff;
+  --color-wechat-active: #02ef02;
+  --color-wechat-active-content: #ffffff;
+  --color-wechat-light-active: #00ff00;
+  --color-wechat-light-active-content: #ffffff;
+
+  //支付宝色
+  --color-alipay: #456fff;
+  --color-alipay-primary: #ffffff;
+  --color-alipay-content: #ffffff;
+  --color-alipay-light: #557bff;
+  --color-alipay-light-content: #ffffff;
+  --color-alipay-active: #557bff;
+  --color-alipay-active-content: #ffffff;
+  --color-alipay-light-active: #698bff;
+  --color-alipay-light-active-content: #ffffff;
+
+  //字体大小
+  font-size: var(--font-size);
+  //背景颜色
+  background-color: var(--background-color);
+  //预览图片尺寸
+  --maximum-image-width: calc(var(--pixel) * 120);
+  --bigger-image-width: calc(var(--pixel) * 100);
+  --large-image-width: calc(var(--pixel) * 80);
+  --image-width: calc(var(--pixel) * 60);
+  --default-image-width: calc(var(--pixel) * 60);
+  --small-image-width: calc(var(--pixel) * 40);
+  --tiny-image-width: calc(var(--pixel) * 36);
+}

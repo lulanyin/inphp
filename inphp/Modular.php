@@ -179,11 +179,25 @@ class Modular
      */
     public static function getConfig($key = null, $default = null){
         if(empty(self::$config)){
-            self::$config = Config::get("private.modular");
+            $file = defined('INPHP_MODULAR_CONFIG') ? INPHP_MODULAR_CONFIG : null;
+            if(!is_null($file) && is_file($file)){
+                self::$config = include $file;
+            }
         }
         if(is_null($key)){
             return self::$config;
         }
         return Arr::get(self::$config, $key);
+    }
+
+    /**
+     * 模块数据刷新
+     */
+    public static function refresh(){
+        //配置清空，按需重新加载
+        self::$config = [];
+        //
+        self::$modules_cache = [];
+        Router::clear();
     }
 }

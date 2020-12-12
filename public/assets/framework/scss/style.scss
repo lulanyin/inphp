@@ -1,0 +1,175 @@
+@import "ui";
+html{
+  height: 100%;
+}
+body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI Light','Segoe WP Light','wf_segoe-ui_light','wf_segoe-ui_normal','Segoe UI','Segoe WP',Helvetica,Tahoma,Arial,sans-serif;
+}
+
+*{
+  box-sizing: border-box;
+}
+
+/**
+  页面布局
+  最外层容器：page-outlet
+ */
+.page-outlet{
+  //全屏宽、高
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  background: var(--background-color);
+  color: var(--color-light-content);
+
+  //头部，注意，如果开启了全屏模式，需要填充iPhone X的顶部
+  .page-header{
+    width: 100%;
+    background-color: var(--color-base);
+    color: var(--color-base-content);
+    border-bottom: solid var(--pixel-default) var(--color-base-active);
+    &.no-border{
+      border-bottom: none!important;
+    }
+    //各种颜色
+    @each $color in $colors{
+      &.#{$color}{
+        background-color: var(--color-#{$color});
+        color: var(--color-#{$color}-content);
+        border-color: var(--color-#{$color}-active);
+        //变更颜色变量
+        --color-base : var(--color-#{$color});
+        --color-base-primary : var(--color-#{$color}-primary);
+        --color-base-content : var(--color-#{$color}-content);
+        --color-base-active : var(--color-#{$color}-active);
+        --color-base-active-content : var(--color-#{$color}-active-content);
+        --color-base-light : var(--color-#{$color}-light);
+        --color-base-light-content : var(--color-#{$color}-light-content);
+        --color-base-light-active : var(--color-#{$color}-light-active);
+        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+      }
+    }
+    &.transparent{
+      background: transparent!important;
+    }
+    &.fixed{
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 10;
+    }
+  }
+  //滚动区内容，使用scroll-view
+  .page-content{
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    width: 100%;
+    position: relative;
+    overflow: auto;
+    &.center-content, &.justify-center{
+      justify-content: center;
+    }
+    .fullscreen-view{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+    }
+    &.transparent{
+      background: transparent!important;
+    }
+
+    //各种颜色
+    @each $color in $colors{
+      &.#{$color}{
+        background-color: var(--color-#{$color});
+        color: var(--color-#{$color}-content);
+        border-color: var(--color-#{$color}-active);
+        //变更颜色变量
+        --color-base : var(--color-#{$color});
+        --color-base-primary : var(--color-#{$color}-primary);
+        --color-base-content : var(--color-#{$color}-content);
+        --color-base-active : var(--color-#{$color}-active);
+        --color-base-active-content : var(--color-#{$color}-active-content);
+        --color-base-light : var(--color-#{$color}-light);
+        --color-base-light-content : var(--color-#{$color}-light-content);
+        --color-base-light-active : var(--color-#{$color}-light-active);
+        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+      }
+    }
+  }
+  //页脚，已经填充iPhone X底部安全高度
+  .page-footer{
+    width: 100%;
+    background-color: var(--color-base);
+    color: var(--color-base-content);
+    border-top: solid var(--pixel-default) var(--color-base-active);
+    padding-bottom: var(--safe-area-inset-bottom);
+    &.no-border{
+      border-top: none!important;
+    }
+    //各种颜色
+    @each $color in $colors{
+      &.#{$color}{
+        background-color: var(--color-#{$color});
+        color: var(--color-#{$color}-content);
+        border-color: var(--color-#{$color}-active);
+        //变更颜色变量
+        --color-base : var(--color-#{$color});
+        --color-base-primary : var(--color-#{$color}-primary);
+        --color-base-content : var(--color-#{$color}-content);
+        --color-base-active : var(--color-#{$color}-active);
+        --color-base-active-content : var(--color-#{$color}-active-content);
+        --color-base-light : var(--color-#{$color}-light);
+        --color-base-light-content : var(--color-#{$color}-light-content);
+        --color-base-light-active : var(--color-#{$color}-light-active);
+        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+      }
+    }
+    &.transparent{
+      background: transparent!important;
+    }
+    &.fixed{
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
+    }
+  }
+  //各种颜色
+  @each $color in $colors{
+    &.#{$color}{
+      background-color: var(--color-#{$color});
+      color: var(--color-#{$color}-content);
+      border-color: var(--color-#{$color}-active);
+      //变更颜色变量
+      --color-base : var(--color-#{$color});
+      --color-base-primary : var(--color-#{$color}-primary);
+      --color-base-content : var(--color-#{$color}-content);
+      --color-base-active : var(--color-#{$color}-active);
+      --color-base-active-content : var(--color-#{$color}-active-content);
+      --color-base-light : var(--color-#{$color}-light);
+      --color-base-light-content : var(--color-#{$color}-light-content);
+      --color-base-light-active : var(--color-#{$color}-light-active);
+      --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+    }
+  }
+  //全屏
+  &.fullscreen{
+    .page-header{
+      padding-top: var(--safe-area-inset-top);
+    }
+  }
+}

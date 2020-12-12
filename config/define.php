@@ -27,7 +27,9 @@ define("APP_PATH",               ROOT."/app");
 //添加支持自定义Smarty标签
 define('SMARTY_TAGS_PARSER', APP_PATH."/smarty_tags_parser");
 //站点配置
-define("INPHP_SERVICE_CONFIG", ROOT."/config/private/service.php");
+define("INPHP_SERVICE_CONFIG", ROOT."/config/service.php");
+//模块化配置文件
+define("INPHP_MODULAR_CONFIG", ROOT."/config/modular.php");
 //数据库配置文件
 define("INPHP_DB_CONFIG", ROOT."/config/private/db.php");
 //常量数组
@@ -43,4 +45,7 @@ $define = [
     "public"        => "{root}/public",
     "attachment"    => "{public}/attachment"
 ];
+//保存配置
 \Inphp\Config::set("define", \Inphp\Util\Arr::parseValue($define));
+//自动加载其它配置
+\Inphp\Config::loadConfig();

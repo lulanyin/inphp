@@ -15,7 +15,7 @@ use Inphp\Annotation\IAnnotation;
 use Inphp\Service\Context;
 
 /**
- * @Annotation()
+ * @Annotation
  * @Target({"CLASS", "METHOD"})
  * Class Method
  * @package app\annotation

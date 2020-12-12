@@ -87,7 +87,9 @@ return [
             //------------------------------ 服务
             //服务启动前
             'before_start'  => [
-
+                function(){
+                    \Inphp\Annotation\Annotation::start();
+                }
             ],
             //服务启动(仅在swoole http server有效)
             'on_start'         => [],
@@ -201,7 +203,9 @@ return [
         'middleware'    => [
             //------------------------------ 服务
             //服务启动前
-            'before_start'  => [],
+            'before_start'  => [
+                //可以启动注解
+            ],
             //服务启动(仅在swoole http server有效)
             'on_start'         => [],
             //子进程启动(仅在swoole http server有效)

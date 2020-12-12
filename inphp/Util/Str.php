@@ -67,7 +67,7 @@ class Str {
      * @param string $rule
      * @return string
      */
-    public static function parseRule($rule)
+    public static function parseRule(string $rule)
     {
         return str_replace('\\*', '.*', preg_quote($rule));
     }
@@ -77,7 +77,7 @@ class Str {
      * @param int $length
      * @return string
      */
-    public static function randomString($length=6){
+    public static function randomString(int $length = 6){
         $str = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         $rs_str = '';
         $len = count($str)-1;
@@ -106,64 +106,64 @@ class Str {
 
     /**
      * 空格全部去掉
-     * @param $string
-     * @param $replace
+     * @param string $string
+     * @param string $replace
      * @return mixed
      */
-    public static function trim($string, $replace=""){
+    public static function trim(string $string, string $replace = ""){
         return preg_replace("/\s+/",$replace,$string);
     }
 
     /**
      * 是否是邮箱地址
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isEmail($string){
+    public static function isEmail(string $string){
         return preg_match('/^[a-z0-9]+([\+_\-\.]?[a-z0-9]+)*@([a-z0-9]+[\-]?[a-z0-9]+\.)+[a-z]{2,6}$/i', $string);
     }
 
     /**
      * 是否是中国的手机号码
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isPhoneNumber($string){
+    public static function isPhoneNumber(string $string){
         return preg_match("/^1[3|4|5|6|7|8|9]{1}[0-9]{9}$/",$string);
     }
 
     /**
      * 是否是数字、字母、下划线组合
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isLNU($string){
+    public static function isLNU(string $string){
         return preg_match("/^[a-z0-9][a-z0-9_]*[a-z0-9]$/i",$string);
     }
     /**
      * 是否是字母开头，数字、字母、下划线组合
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isLNUS($string){
+    public static function isLNUS(string $string){
         return preg_match("/^[a-z][a-z0-9_]*[a-z0-9]$/i",$string);
     }
 
     /**
      * 是不是中文
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isZhChart($string){
+    public static function isZhChart(string $string){
         return !preg_match("/^[a-z0-9_|\*\?,\.\{\}\(\)\&\%\$\#\@\!]*[a-z0-9_|\*\?,\.\{\}\(\)\&\%$\#\@\!]$/i",$string);
     }
 
     /**
      * 是否是数字、字母、下划线组合
-     * @param $string
+     * @param string $string
      * @return int
      */
-    public static function isLettersOrNumbersOrUnderscores($string){
+    public static function isLettersOrNumbersOrUnderscores(string $string){
         return self::isLNU($string);
     }
 
@@ -172,7 +172,7 @@ class Str {
      * @param int $length
      * @return string
      */
-    public static function randomNumber($length=6){
+    public static function randomNumber(int $length = 6){
         $str = str_split('0123456789');
         $rs_str = '';
         $len = count($str)-1;
@@ -200,7 +200,7 @@ class Str {
      * @return string
      */
     public static function htmlEncode($html, $encodeType=ENT_QUOTES){
-        if(get_magic_quotes_gpc()){
+        if(function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()){
             $html = stripslashes($html);
         }
         if($html=="0"){
@@ -233,7 +233,7 @@ class Str {
     }
 
     /**
-     * 从字符串中提取数字
+     * 从字符串中提取数字，不足长度的，自动补满
      * @param $string
      * @param int $length
      * @return string
@@ -258,6 +258,12 @@ class Str {
      */
     public static function makeTimeByString($string){
         if(empty($string)) return 0;
+
+        $string = self::replace("-", "/", $string);
+        $string = self::replace("年", "/", $string);
+        $string = self::replace("月", "/", $string);
+        $string = self::replace("日", "", $string);
+
         $arr = explode(" ", $string);
         $Ymd = Arr::get($arr, 0, date("Y/m/d", time()));
         $His = Arr::get($arr, 1, "00:00:00");
@@ -325,7 +331,7 @@ class Str {
      * @param int $dec
      * @return string
      */
-    public static function decimal($number, $dec=2){
+    public static function decimal($number, $dec = 2){
         //获取小数点
         $pos = stripos($number, ".");
         $point = $pos>0 ? substr($number, $pos+1) : null;
@@ -345,7 +351,7 @@ class Str {
      * @param int $cut_length
      * @return bool|string
      */
-    public static function cutNumber($number, $cut_length=8){
+    public static function cutNumber($number, $cut_length = 8){
         $number = strlen($number)>$cut_length ? substr($number,0, $cut_length) : $number;
         if(strchr($number, ".")=="."){
             $number = substr($number, 0, -1);
@@ -368,38 +374,21 @@ class Str {
 
     /**
      * 过滤值
-     * @param $fn
+     * @param string $fn
      * @param $value
+     * @param $default
      * @return int|mixed|null|string
      */
-    public static function filter($fn, $value){
+    public static function filter(string $fn, $value, $default = null){
         switch ($fn){
             case "trim" :
                 return is_string($value) ? self::trim($value) : $value;
                 break;
             case "number" :
-                return is_numeric($value) ? $value : null;
+                return is_numeric($value) ? $value : $default;
                 break;
         }
         return $value;
-    }
-
-    /**
-     * 解码base64
-     * @param $value
-     * @return bool|string
-     */
-    public static function base64Decode($value){
-        return stripos($value, "base64:")===0 ? base64_decode(substr($value, 7)) : $value;
-    }
-
-    /**
-     * 判断银行卡号
-     * @param $string
-     * @return bool
-     */
-    public static function isBankcardNumber($string){
-        return is_numeric($string) && (strlen($string)==16 || strlen($string)==17 || strlen($string)==19);
     }
 
 }

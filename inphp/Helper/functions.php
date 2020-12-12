@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: lulanyin <me@lanyin.lu>
 // +----------------------------------------------------------------------
+use Inphp\Config;
 use Inphp\Service\Context;
 /**
  * 赋值变量到模板使用
@@ -52,4 +53,43 @@ function json($error = 0, $message = 'success', $data = null){
         "message" => $message,
         "data"  => $data
     ];
+}
+
+/**
+ * 生成资源文件地址
+ * @param string $url
+ * @param null $module
+ * @return string
+ */
+function assets(string $url, $module = null){
+    $assets_url = Config::get("domain.assets_url");
+    $assets_url = strrchr($assets_url, "/") == "/" ? $assets_url : "{$assets_url}/";
+    if(!empty($module)){
+        $assets_url .= "{$module}/";
+    }
+    $url = $assets_url . $url;
+    return str_replace("//", "/", $url);
+}
+
+/**
+ * 设置临时的全局变量
+ * @param string $name
+ * @param null $value
+ * @return mixed|null
+ */
+function globals(string $name, $value = null){
+    if(!is_null($value)){
+        if(Context::isSwoole()){
+            \Swoole\Coroutine::getContext()[$name] = $value;
+        }else{
+            $GLOBALS[$name] = $value;
+        }
+    }else{
+        if(Context::isSwoole()){
+            $value = \Swoole\Coroutine::getContext()[$name] ?? null;
+        }else{
+            $value = $GLOBALS[$name] ?? null;
+        }
+    }
+    return $value;
 }
