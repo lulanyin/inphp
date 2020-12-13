@@ -45,7 +45,7 @@ $image-size : maximum, large, default, small, tiny;
   //圆角
   border-radius: var(--border-radius-width);
   //常规按钮高度是42
-  height: calc(var(--pixel) * 42);
+  height: calc(var(--pixel) * 36);
   //背景默认为主色调
   background: var(--color-base-light);
   //文字内容也默认为主色调的内容色
@@ -146,15 +146,15 @@ $image-size : maximum, large, default, small, tiny;
 
   //50%圆角
   &.round{
-    border-radius: calc(var(--pixel) * 42);
+    border-radius: calc(var(--pixel) * 36);
     padding-left: calc(var(--padding-width) * 2);
     padding-right: calc(var(--padding-width) * 2);
   }
 
   &.circle{
-    border-radius: calc(var(--pixel) * 42);
-    width: calc(var(--pixel) * 42);
-    height: calc(var(--pixel) * 42);
+    border-radius: calc(var(--pixel) * 36);
+    width: calc(var(--pixel) * 36);
+    height: calc(var(--pixel) * 36);
     overflow: hidden;
     padding: 0!important;
   }
@@ -166,22 +166,22 @@ $image-size : maximum, large, default, small, tiny;
 
   //大尺寸
   &.large{
-    height: calc(var(--pixel) * 48);
+    height: calc(var(--pixel) * 42);
     //使用0.6倍的字体大小
-    font-size: calc(var(--font-size) * 1.4);
+    font-size: calc(var(--font-size) * 1.2);
     &.round{
       //小尺寸的50%圆角，左右需要1倍填充即可
       padding-left: calc(var(--padding-width));
       padding-right: calc(var(--padding-width));
     }
     &.circle{
-      width: calc(var(--pixel) * 48);
+      width: calc(var(--pixel) * 42);
     }
   }
 
   //小尺寸
   &.small{
-    height: calc(var(--pixel) * 32);
+    height: calc(var(--pixel) * 30);
     //使用0.8倍的字体大小
     //font-size: calc(var(--font-size) * 0.8);
     &.round{
@@ -190,7 +190,7 @@ $image-size : maximum, large, default, small, tiny;
       padding-right: calc(var(--padding-width) * 1.5);
     }
     &.circle{
-      width: calc(var(--pixel) * 32);
+      width: calc(var(--pixel) * 30);
     }
   }
 
@@ -320,8 +320,8 @@ a.ui-button:hover{
   border: solid var(--pixel) var(--color-base-active);
   background: var(--color-base-light);
   color: var(--color-base-light-content);
-  height: calc( var(--pixel) * 42 );
-  border-radius: calc( var(--pixel) * 42 );
+  height: calc( var(--pixel) * 36 );
+  border-radius: calc( var(--pixel) * 36 );
   .icon{
     padding: 0 calc(var(--pixel) * 10);
     @extend .fn-flex-justify-center;

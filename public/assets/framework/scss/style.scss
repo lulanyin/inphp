@@ -6,11 +6,25 @@ body{
   margin: 0;
   padding: 0;
   height: 100%;
+  font-size: var(--font-size);
+  line-height: normal;
   font-family: 'Segoe UI Light','Segoe WP Light','wf_segoe-ui_light','wf_segoe-ui_normal','Segoe UI','Segoe WP',Helvetica,Tahoma,Arial,sans-serif;
+  background: var(--background-color);
 }
 
 *{
   box-sizing: border-box;
+}
+
+i.icon{
+  margin: 0;
+}
+
+a{
+  color: var(--color-base-primary);
+}
+a, .ui-button{
+  transition: color .3s, background .3s;
 }
 
 /**
@@ -27,8 +41,8 @@ body{
   overflow: hidden;
   display: flex;
   flex-flow: column;
-  background: var(--background-color);
-  color: var(--color-light-content);
+  //background: var(--background-color);
+  //color: var(--color-light-content);
 
   //头部，注意，如果开启了全屏模式，需要填充iPhone X的顶部
   .page-header{
@@ -170,6 +184,102 @@ body{
   &.fullscreen{
     .page-header{
       padding-top: var(--safe-area-inset-top);
+    }
+  }
+}
+
+.console-wrap{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  overflow: hidden;
+  .console-side{
+    background: var(--color-base-light);
+    color: var(--color-light-content);
+    width: 200px;
+    position: relative;
+  }
+  .console-content{
+    display: flex;
+    flex: 1;
+    position: relative;
+  }
+  //各种颜色
+  @each $color in $colors{
+    &.#{$color} .console-side{
+      background-color: var(--color-#{$color});
+      color: var(--color-#{$color}-content);
+      border-color: var(--color-#{$color}-active);
+      //变更颜色变量
+      --color-base : var(--color-#{$color});
+      --color-base-primary : var(--color-#{$color}-primary);
+      --color-base-content : var(--color-#{$color}-content);
+      --color-base-active : var(--color-#{$color}-active);
+      --color-base-active-content : var(--color-#{$color}-active-content);
+      --color-base-light : var(--color-#{$color}-light);
+      --color-base-light-content : var(--color-#{$color}-light-content);
+      --color-base-light-active : var(--color-#{$color}-light-active);
+      --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+    }
+  }
+
+}
+
+//菜单
+.console-menu{
+  .start{
+    width: 20px;
+  }
+  .center{
+    padding-left: 0!important;
+  }
+  .title{
+    font-weight: bold;
+    font-size: 1.2rem!important;
+    padding: 10px!important;
+    color: #666;
+    &:hover{
+      background:#f2f6f9;
+      color: var(--color-danger);
+    }
+    &.active{
+      background:#f2f6f9;
+      color: var(--color-danger);
+      &:before{
+        background: var(--color-danger);
+      }
+    }
+  }
+  .content{
+    padding: 0!important;
+    a{
+      padding: 10px;
+      color: #666;
+      &:hover, &.active{
+        background:#f2f6f9;
+        color: var(--color-danger);
+      }
+    }
+    &.active{
+      a:before{
+        background: #ffb1aa;
+      }
+    }
+  }
+  .title, .content a{
+    position: relative;
+    &:before{
+      content: '';
+      width: 2px;
+      position: absolute;
+      background: transparent;
+      left: 0;
+      top: 0;
+      height: 100%;
     }
   }
 }
