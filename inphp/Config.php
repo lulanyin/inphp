@@ -26,9 +26,7 @@ class Config {
      * 加载配置
      */
     public static function loadConfig(){
-        //加载 domain 配置
-        $domain = include self::get("define.configs")."/domain.php";
-        self::set("domain", Arr::parseValue($domain, self::$configs));
+
     }
 
     /**

@@ -47,5 +47,6 @@ $define = [
 ];
 //保存配置
 \Inphp\Config::set("define", \Inphp\Util\Arr::parseValue($define));
-//自动加载其它配置
-\Inphp\Config::loadConfig();
+//加载 domain 配置
+$domain = include \Inphp\Config::get("define.configs")."/domain.php";
+\Inphp\Config::set("domain", \Inphp\Util\Arr::parseValue($domain, \Inphp\Config::get()));

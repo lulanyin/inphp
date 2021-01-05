@@ -10,16 +10,13 @@
 // +----------------------------------------------------------------------
 namespace Inphp;
 
-use Inphp\Annotation\Annotation;
 use Inphp\Object\ModuleObject;
-use Inphp\Service\Context;
 use Inphp\Service\Service;
-use Swoole\Coroutine;
 
 class App
 {
     /**
-     * @var \Swoole\Http\Server|\Swoole\WebSocket\Server|null;
+     * @var \Swoole\Http\Server|\Swoole\WebSocket\Server;
      */
     public static $server = null;
 
