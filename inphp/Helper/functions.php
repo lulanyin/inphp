@@ -67,9 +67,12 @@ function assets(string $url, $module = null){
     if(!empty($module)){
         $assets_url .= "{$module}/";
     }
-    $url = $assets_url . $url;
-    return str_replace("//", "/", $url);
+    return $assets_url . str_replace("//", "/", $url);
 }
+//添加标签
+SmartyTags::add("assets", function($params = []){
+    return assets($params['url'], $params['module'] ?? null);
+});
 
 /**
  * 设置临时的全局变量
