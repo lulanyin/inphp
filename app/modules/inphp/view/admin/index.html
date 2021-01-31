@@ -1,58 +1,57 @@
-{include "inc_header.html" title="控制台" body_attr="style='overflow:hidden;'"}
-<div class="console-wrap inphp">
-    <div class="console-side">
-        <div class="page-outlet">
-            <div class="page-header padding-top padding-bottom no-border transparent">
-                <div class="text-center">
-                    <div class="maximum-text">INPHP</div>
-                    <div class="default-text base-light-text">控制台</div>
-                </div>
-            </div>
-            <div class="page-content transparent">
-                <div class="console-menu">
-                    <div class="ui accordion">
-                        <div class="title active">
-                            <div class="ui-flex-item">
-                                <div class="start">
-                                    <i class="icon cog"></i>
-                                </div>
-                                <div class="center">系统模块</div>
-                                <div class="end">
-                                    <i class="icon chevron down"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content active">
-                            <a class="ui-flex-item" href="">
-                                <span class="start justify-center"><i class="icon settings"></i></span>
-                                <span class="center">设置</span>
-                                <span class="end">
-                                    <i class="icon arrow right"></i>
-                                </span>
-                            </a>
-                        </div>
+{include "inc_header.html" title="控制台" body_attr="style='overflow-y:hidden;'"}
+<!-- 后台框架 -->
+<div class="console-outlet">
+    <!-- 头部 -->
+    <div class="console-header ui-flex-item" style="padding-right: 3px;">
+        <!-- 名称 -->
+        <div class="console-name start">后台管理<div class="powerby">power by <span class="primary-text">inphp</span></div></div>
+        <div class="center"></div>
+        <!-- 右侧菜单 -->
+        <div class="end">
+            <div class="user-options">
+                <div class="face">
+                    <div class="small-image round default-background auto-margin">
+                        <img src="{assets url='/images/user.png'}">
                     </div>
                 </div>
-            </div>
-            <div class="page-footer no-border transparent">
-                <div class="padding text-center small-text">power by <a href="https://inphp.cc" target="_blank">INPHP</a></div>
+                <div class="options">
+                    <div class="one-line-text text-center margin-start margin-end base-light-text margin-bottom">超级管理员</div>
+                    <a href="javascript:void(0);"><i class="icon pencil"></i> 修改资料</a>
+                    <a href="javascript:void(0);"><i class="icon key"></i> 修改密码</a>
+                    <a href="javascript:void(0);"><i class="icon sign out alternate"></i> 退出后台</a>
+                    <div class="split"></div>
+                    <a href="javascript:void(0);"><i class="icon globe"></i> 网站首页</a>
+                </div>
             </div>
         </div>
     </div>
+    <!-- 主体 -->
     <div class="console-content">
-        <div class="page-outlet">
-            <div class="page-header no-border padding">
-                <div class="ui-flex-item">
-                    <div class="start justify-center">
-                        <div class="ui-button clear">
-                            <i class="icon content"></i>
+        <!-- 左侧菜单 -->
+        <div class="console-menu">
+            <div class="console-menu-header">管理菜单</div>
+            <div class="console-menu-scroll-view">
+                <div class="bg">
+                    <div class="ui accordion" id="index-menus">
+                        {foreach $menus as $m}
+                        <div class="title waves-effect waves-block{if $m@first} active{/if}"><i class="{$m.icon} icon"></i> {$m.name}</div>
+                        <div class="content{if $m@first} active{/if}">
+                            {foreach $m.list as $l}
+                            {if empty($l.url)}
+                            <div class="sub-hd">{$l.name}</div>
+                            {elseif !isset($l.hidden) || (isset($l.hidden) && !$l.hidden)}
+                            <a class="waves-effect waves-block" href="{$l.url}" target="mainContent"><i class="{$l.icon} icon"></i> {$l.name}</a>
+                            {/if}
+                            {/foreach}
                         </div>
+                        {/foreach}
                     </div>
-                    <div class="center"></div>
-                    <div class="end"></div>
                 </div>
             </div>
-            <div class="page-content"></div>
+        </div>
+        <!-- 右边iframe -->
+        <div class="console-frame">
+            <iframe name="mainContent" id="mainContent" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
         </div>
     </div>
 </div>

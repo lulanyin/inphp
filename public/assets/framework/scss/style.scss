@@ -27,259 +27,182 @@ a, .ui-button{
   transition: color .3s, background .3s;
 }
 
-/**
-  页面布局
-  最外层容器：page-outlet
- */
-.page-outlet{
-  //全屏宽、高
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  flex-flow: column;
-  //background: var(--background-color);
-  //color: var(--color-light-content);
+//滚动条样式
+*::-webkit-scrollbar{width:2px!important;background:rgba(0,0,0,.05)!important;height:10px!important;border-radius:0!important;}
+*::-webkit-scrollbar-thumb{background:rgba(0,0,0,.5)!important;border-radius:0!important;}
 
-  //头部，注意，如果开启了全屏模式，需要填充iPhone X的顶部
-  .page-header{
-    width: 100%;
-    background-color: var(--color-base);
-    color: var(--color-base-content);
-    border-bottom: solid var(--pixel-default) var(--color-base-active);
-    &.no-border{
-      border-bottom: none!important;
-    }
-    //各种颜色
-    @each $color in $colors{
-      &.#{$color}{
-        background-color: var(--color-#{$color});
-        color: var(--color-#{$color}-content);
-        border-color: var(--color-#{$color}-active);
-        //变更颜色变量
-        --color-base : var(--color-#{$color});
-        --color-base-primary : var(--color-#{$color}-primary);
-        --color-base-content : var(--color-#{$color}-content);
-        --color-base-active : var(--color-#{$color}-active);
-        --color-base-active-content : var(--color-#{$color}-active-content);
-        --color-base-light : var(--color-#{$color}-light);
-        --color-base-light-content : var(--color-#{$color}-light-content);
-        --color-base-light-active : var(--color-#{$color}-light-active);
-        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+//
+.console-outlet{
+  position: absolute;
+  min-width: 640px;
+  left:0;
+  top:0;
+  height: 100%;
+  width:100%;
+  z-index: 1;
+  background: #E9ECF3;
+  .console-header{
+    height:60px;
+    margin: 10px 0 0 0;
+    position: relative;
+    background: #ffffff;
+    width: calc(100% - 20px);
+    left:10px;top:0;
+    padding:0 1rem;
+    border-radius:var(--border-radius-width, 5px);
+    .console-name{
+      background:none;
+      height:60px;
+      font-size: 26px;
+      justify-content: center;
+      display: flex;
+      flex-flow: column;
+      .powerby{
+        font-size: var(--small-text);
+        color: var(--color-medium);
+        user-select: none;
       }
     }
-    &.transparent{
-      background: transparent!important;
+    .links{
+      right:1rem;
+      text-align: right;
+      position: absolute;
+      bottom:1rem;
     }
-    &.fixed{
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
+    //
+    .user-options{
+      user-select: none;
+      position: relative;
       z-index: 10;
+      width: 80px;
+      background: #ffffff;
+      border-radius: 3px;
+      .face{
+        width: 80px;
+        height: 60px;
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+      }
+      .options{
+        display: none;
+        a{
+          display: block;
+          padding: 5px;
+          color: #666666;
+          text-align: center;
+          &:last-child{
+            border-radius: 0 0 3px 3px;
+          }
+          &:hover{
+            background: var(--color-primary);
+            color: var(--color-primary-content);
+          }
+        }
+        .split{
+          margin: 5px;
+          border-top: solid 1px #ddd;
+        }
+      }
+      &:hover{
+        background: #f9f9f9;
+        .options{
+          display: block;
+        }
+      }
     }
   }
-  //滚动区内容，使用scroll-view
-  .page-content{
+  //
+  .console-content{
+    overflow: hidden;
+    position: absolute;
+    height: calc(100% - 80px);
+    top: 80px;
+    width: 100%;
+  }
+  //菜单
+  .console-menu{
+    position: absolute;
+    left:7px;
+    top: 0;
+    width:200px;
+    bottom: 10px;
     display: flex;
     flex-flow: column;
-    flex: 1;
-    width: 100%;
-    position: relative;
-    overflow: auto;
-    &.center-content, &.justify-center{
-      justify-content: center;
+    overflow: hidden;
+    border-radius: var(--border-radius-width, 5px);
+    .bg{
+      background:#fff;
+      padding: 1px 0 5px 0;
+      margin-left: 3px;
+      border-radius: 0 0 var(--border-radius-width, 5px) var(--border-radius-width, 5px);
     }
-    .fullscreen-view{
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
+    .console-menu-header{
+      color:#cccccc;
+      line-height:3rem;
+      padding:0 10px;
+      cursor:default;
+      margin-left: 3px;
+      background: #ffffff;
+      border-radius: var(--border-radius-width, 5px) var(--border-radius-width, 5px) 0 0;
     }
-    &.transparent{
-      background: transparent!important;
+    .console-menu-scroll-view{
+      display: flex;
+      flex-flow: column;
+      flex: 1;
+      overflow: auto;
     }
-
-    //各种颜色
-    @each $color in $colors{
-      &.#{$color}{
-        background-color: var(--color-#{$color});
-        color: var(--color-#{$color}-content);
-        border-color: var(--color-#{$color}-active);
-        //变更颜色变量
-        --color-base : var(--color-#{$color});
-        --color-base-primary : var(--color-#{$color}-primary);
-        --color-base-content : var(--color-#{$color}-content);
-        --color-base-active : var(--color-#{$color}-active);
-        --color-base-active-content : var(--color-#{$color}-active-content);
-        --color-base-light : var(--color-#{$color}-light);
-        --color-base-light-content : var(--color-#{$color}-light-content);
-        --color-base-light-active : var(--color-#{$color}-light-active);
-        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
+    .accordion{
+      user-select: none;
+      .title{
+        transition: background-color .5s, color .5s;
+        position: relative;
+        cursor:pointer;
+        line-height:3rem;
+        padding:0 15px!important;
+        margin:1px 0;
+        color:#666!important;
+        font-weight:bold;
+        i{font-weight:normal;}
+        &:hover{background:#f2f6f9;}
+        &.active{background:#f2f6f9;border-left:solid 3px var(--color-primary, #E4393C);color: var(--color-primary, #E4393C)!important;margin-left:-3px;}
+        &:after{content:"\f107";position:absolute;right:15px;font-family:Icons;}
+        &.active:after{transform: rotate(180deg);}
+      }
+      .content{padding:0!important;
+        a{line-height:3rem;padding:0 15px;display:block;margin:1px 0;color:#666666;position: relative;transition: background-color .5s, color .5s;
+          &:hover,&.active{
+            background:#f2f6f9;color:var(--color-primary, #E4393C);
+          }
+          &.active:after{content:"\f061";position:absolute;right:15px;font-family:Icons;}
+        }
+        &.active{
+          border-left:solid 3px var(--color-secondary-light, #ffb1aa);
+          margin-left:-3px;
+        }
+        .sub-hd{
+          font-size: .8rem;color:#999;
+          padding:5px 15px 0 15px;
+          font-weight:bold;
+        }
+      }
+      .accordion{margin:0!important;
+        .title{padding:0 23px!important;font-weight:normal;
+          &.active{border-top:solid 1px #009c95;border-left:none;margin-left:0!important;margin-top:-1px!important;}
+        }
+        .content a{padding:0 31px;}
       }
     }
   }
-  //页脚，已经填充iPhone X底部安全高度
-  .page-footer{
-    width: 100%;
-    background-color: var(--color-base);
-    color: var(--color-base-content);
-    border-top: solid var(--pixel-default) var(--color-base-active);
-    padding-bottom: var(--safe-area-inset-bottom);
-    &.no-border{
-      border-top: none!important;
-    }
-    //各种颜色
-    @each $color in $colors{
-      &.#{$color}{
-        background-color: var(--color-#{$color});
-        color: var(--color-#{$color}-content);
-        border-color: var(--color-#{$color}-active);
-        //变更颜色变量
-        --color-base : var(--color-#{$color});
-        --color-base-primary : var(--color-#{$color}-primary);
-        --color-base-content : var(--color-#{$color}-content);
-        --color-base-active : var(--color-#{$color}-active);
-        --color-base-active-content : var(--color-#{$color}-active-content);
-        --color-base-light : var(--color-#{$color}-light);
-        --color-base-light-content : var(--color-#{$color}-light-content);
-        --color-base-light-active : var(--color-#{$color}-light-active);
-        --color-base-light-active-content : var(--color-#{$color}-light-active-content);
-      }
-    }
-    &.transparent{
-      background: transparent!important;
-    }
-    &.fixed{
-      position: fixed;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      z-index: 10;
-    }
-  }
-  //各种颜色
-  @each $color in $colors{
-    &.#{$color}{
-      background-color: var(--color-#{$color});
-      color: var(--color-#{$color}-content);
-      border-color: var(--color-#{$color}-active);
-      //变更颜色变量
-      --color-base : var(--color-#{$color});
-      --color-base-primary : var(--color-#{$color}-primary);
-      --color-base-content : var(--color-#{$color}-content);
-      --color-base-active : var(--color-#{$color}-active);
-      --color-base-active-content : var(--color-#{$color}-active-content);
-      --color-base-light : var(--color-#{$color}-light);
-      --color-base-light-content : var(--color-#{$color}-light-content);
-      --color-base-light-active : var(--color-#{$color}-light-active);
-      --color-base-light-active-content : var(--color-#{$color}-light-active-content);
-    }
-  }
-  //全屏
-  &.fullscreen{
-    .page-header{
-      padding-top: var(--safe-area-inset-top);
-    }
-  }
-}
-
-.console-wrap{
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-flow: row;
-  overflow: hidden;
-  .console-side{
-    background: var(--color-base-light);
-    color: var(--color-light-content);
-    width: 200px;
-    position: relative;
-  }
-  .console-content{
-    display: flex;
-    flex: 1;
-    position: relative;
-  }
-  //各种颜色
-  @each $color in $colors{
-    &.#{$color} .console-side{
-      background-color: var(--color-#{$color});
-      color: var(--color-#{$color}-content);
-      border-color: var(--color-#{$color}-active);
-      //变更颜色变量
-      --color-base : var(--color-#{$color});
-      --color-base-primary : var(--color-#{$color}-primary);
-      --color-base-content : var(--color-#{$color}-content);
-      --color-base-active : var(--color-#{$color}-active);
-      --color-base-active-content : var(--color-#{$color}-active-content);
-      --color-base-light : var(--color-#{$color}-light);
-      --color-base-light-content : var(--color-#{$color}-light-content);
-      --color-base-light-active : var(--color-#{$color}-light-active);
-      --color-base-light-active-content : var(--color-#{$color}-light-active-content);
-    }
-  }
-
-}
-
-//菜单
-.console-menu{
-  .start{
-    width: 20px;
-  }
-  .center{
-    padding-left: 0!important;
-  }
-  .title{
-    font-weight: bold;
-    font-size: 1.2rem!important;
-    padding: 10px!important;
-    color: #666;
-    &:hover{
-      background:#f2f6f9;
-      color: var(--color-danger);
-    }
-    &.active{
-      background:#f2f6f9;
-      color: var(--color-danger);
-      &:before{
-        background: var(--color-danger);
-      }
-    }
-  }
-  .content{
-    padding: 0!important;
-    a{
-      padding: 10px;
-      color: #666;
-      &:hover, &.active{
-        background:#f2f6f9;
-        color: var(--color-danger);
-      }
-    }
-    &.active{
-      a:before{
-        background: #ffb1aa;
-      }
-    }
-  }
-  .title, .content a{
-    position: relative;
-    &:before{
-      content: '';
-      width: 2px;
-      position: absolute;
-      background: transparent;
-      left: 0;
-      top: 0;
-      height: 100%;
-    }
+  //框架页
+  .console-frame{
+    position: absolute;
+    background: #ffffff;
+    margin: 0;
+    top: 0;
+    width: calc(100% - 227px);
+    right:10px;
+    bottom:10px;
+    border-radius: var(--border-radius-width, 5px);
   }
 }

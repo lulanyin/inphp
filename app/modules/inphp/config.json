@@ -6,15 +6,29 @@
   },
   "http"  : {
     "home"  : "http",
-    "default" : "admin1314",
+    "default" : "master",
     "list" : {
       "api" : "api",
-      "admin1314" : "admin"
+      "master" : "admin"
     },
     "view" : "view",
     "view_suffix" : "html",
     "response_content_type" : {
       "api" : "application/json"
+    },
+    "console" : {
+      "menus" : [
+        {
+          "icon" : "icon users",
+          "name" : "会员账号管理",
+          "weight" : 1,
+          "group" : ["admin"],
+          "list" : [
+            {"icon" : "icon list ul", "name" : "账号管理", "url" : "./admin/user/list"},
+            {"icon" : "icon history", "name" : "登录日志", "url" : "./admin/user/login-history"}
+          ]
+        }
+      ]
     }
   },
   "ws" : {

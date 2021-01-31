@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace Inphp;
 
+use Inphp\DB\Cache;
 use Inphp\Object\ModuleObject;
 use Inphp\Service\Context;
 use Inphp\Service\Object\Status;
@@ -188,6 +189,80 @@ class Modular
             return self::$config;
         }
         return Arr::get(self::$config, $key);
+    }
+
+    /**
+     * 获取模块列表
+     * @return array
+     */
+    public static function getList(){
+        return self::getConfig("list");
+    }
+
+    /**
+     * 获取模块配置文件数组
+     * @param $name
+     * @return ModuleObject|null
+     */
+    public static function getModuleConfig($name){
+        //尝试从缓存获取
+        return self::get($name);
+    }
+
+    /**
+     * 将地址转换为正确的地址
+     * @param $url
+     * @param $moduleName
+     * @return string
+     */
+    public static function parseUrl($url, $moduleName){
+        $url_query = stripos($url, "?") !== false ? explode("?", $url, 2) : [$url, ""];
+        $url = $url_query[0];
+        $query = $url_query[1];
+        $keyName = "url_".md5($moduleName."_".$url);
+        $value = Cache::get($keyName);
+        if(!empty($value)){
+            return $value.(!empty($query) ? "?{$query}" : "");
+        }
+        if(stripos($url, "./") === 0){
+            //使用当前的模块
+            $str_array = explode("/", $url);
+            //取path
+            $path = $str_array[1] ?? null;
+            //
+            $url_array = count($str_array) > 2 ? array_slice($str_array, 2) : [];
+        }elseif(stripos($url, "/") === 0){
+            //使用外部模块
+            $str_array = explode("/", $url);
+            $moduleName = $str_array[1];
+            $path = $str_array[2] ?? null;
+            $url_array = count($str_array) > 3 ? array_slice($str_array, 3) : [];
+        }else{
+            return $url;
+        }
+        $config = self::getModuleConfig($moduleName);
+        $http = $config->http_config;
+        $list = $http['list'] ?? [];
+        $default = $http['default'] ?? '';
+        //反转
+        if(!empty($list)){
+            $flip = array_flip($list);
+            if(isset($flip[$path])){
+                //存在path，替换
+                $path = $flip[$path];
+            }
+        }else{
+            //空的
+        }
+        $modules = self::getList();
+        //反转
+        $flip = array_flip($modules);
+        if(isset($flip[$moduleName])){
+            $moduleName = $flip[$moduleName];
+        }
+        $value = "/".$moduleName.(!empty($path) ? ("/".$path) : "")."/".join("/", $url_array);
+        Cache::set($keyName, $value);
+        return $value.(!empty($query) ? "?{$query}" : "");
     }
 
     /**
