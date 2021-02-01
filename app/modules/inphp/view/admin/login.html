@@ -1,12 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Inphp Login Page</title>
-</head>
-<body>
-<div style="text-align: center;padding: 50px;">
-    welcome to login page! please login...{$player}
+{include "INC_header.html" title="登录"}
+<style type="text/css">
+    body{
+        background-image: linear-gradient(
+                135deg,
+                rgba(214, 214, 214, 0.3) 0, rgba(214, 214, 214, .3) 25%, transparent 25%, transparent 50%,
+                rgba(214, 214, 214, .3) 50%, rgba(214, 214, 214, .3) 75%, transparent 75%, transparent
+        );
+        background-size: 10px 10px;
+    }
+</style>
+<script type="text/javascript">
+    let _ajax_form_callback = json => {
+        if(json.error){
+            //登录错误
+            return null;
+        }else{
+            //从地址栏获取回调链接
+            let callback = getQueryVariable('callbacl');
+            callback = callback || "{url url='./admin' module='inphp'}";
+            window.location.href = callback;
+            return true;
+        }
+    };
+</script>
+<div class="console-login">
+    <div class="ad-slide">
+        <!-- 获取官方广告图 -->
+    </div>
+    <div class="login-form justify-center">
+        <div class="large-padding">
+            <div class="default-image round auto-margin">
+                <img src="{assets url='/images/user.png'}">
+            </div>
+            <div class="text-center padding-top">账号登录</div>
+            <br>
+            <br>
+            <form class="ui form padding-top" method="post" data-ajax="true" action="{url url='./api/auth/token' module='inphp'}">
+                <div class="field">
+                    <div class="ui large input left icon">
+                        <i class="icon user"></i>
+                        <input name="username" type="text" placeholder="账号/手机号码/邮箱">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui large input left icon">
+                        <i class="icon lock"></i>
+                        <input name="password" type="password" placeholder="密码">
+                    </div>
+                </div>
+                <div class="field">
+                    <button type="submit" class="ui button primary fluid large">立即登录</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-</body>
-</html>
+{include "INC_footer.html"}

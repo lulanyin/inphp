@@ -391,4 +391,22 @@ class Str {
         return $value;
     }
 
+    /**
+     * 解码base64
+     * @param $value
+     * @return bool|string
+     */
+    public static function base64Decode($value){
+        return stripos($value, "base64:")===0 ? base64_decode(substr($value, 7)) : $value;
+    }
+
+    /**
+     * 判断银行卡号
+     * @param $string
+     * @return bool
+     */
+    public static function isBankcardNumber($string){
+        return is_numeric($string) && (strlen($string)==16 || strlen($string)==17 || strlen($string)==19);
+    }
+
 }

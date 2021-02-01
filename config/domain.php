@@ -9,5 +9,7 @@ return [
     //资源主目录地址，用于固有的资源文件
     "assets_url"        => "{scheme}://assets.{host}",
     //附件主目录地址，主要用于上传的文件
-    "attachment_url"    => "{scheme}://attachment.{host}"
+    "attachment_url"    => "{scheme}://attachment.{host}",
+    //公共库静态文件域名
+    "static_url"        => "https://api2.shumabuluo.com/assets"
 ];

@@ -23,7 +23,7 @@ return [
         //密码
         'password'  => '12345678',
         //数据库名
-        'database'  => 'pch'
+        'database'  => 'inphp'
     ],
     //读分离，若定义了，select 会优先使用
     //"read"          => ["数组值请参考上方的 default 连接"],

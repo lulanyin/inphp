@@ -10,12 +10,18 @@ use Inphp\Modular;
 
 /**
  * 控制台默认入口，需要登录后台的权限
- *
+ * @app\modules\inphp\attributes\Auth(uid="uid", redirect="./login", module="inphp")
  * Class index
  * @package app\modules\inphp\http\admin
  */
 class index
 {
+    /**
+     * UID
+     * @var int
+     */
+    public $uid = 0;
+
     /**
      * 默认入口
      */
@@ -59,6 +65,5 @@ class index
             }
         }
         assign("menus", $menus);
-
     }
 }

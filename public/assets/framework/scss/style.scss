@@ -206,3 +206,34 @@ a, .ui-button{
     border-radius: var(--border-radius-width, 5px);
   }
 }
+
+//登录页
+.console-login{
+  width: 800px;
+  height: 500px;
+  box-sizing: content-box;
+  background: #ffffff;
+  border:solid 3px rgba(0,0,0,.1);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-flow: row;
+  //
+  .ad-slide{
+    height: 500px;
+    display: flex;
+    flex: 1;
+    background: #ffffff;
+    background: linear-gradient(
+      45deg,
+      rgba(214, 214, 214, 0.5) 0, rgba(214, 214, 214, .5) 25%, transparent 25%, transparent 50%,
+      rgba(214, 214, 214, .5) 50%, rgba(214, 214, 214, .5) 75%, transparent 75%, transparent
+    );
+    background-size: 10px 10px;
+  }
+  .login-form{
+    width: 300px;
+  }
+}

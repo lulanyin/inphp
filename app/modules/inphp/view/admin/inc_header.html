@@ -38,6 +38,23 @@
     <!-- Semantic UI -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+    <!-- 公共库 -->
+    <link href="{$domain.static_url}/other/css/widget.css" rel="stylesheet">
+    <link href="{$domain.static_url}/lib/loader/icon.css" rel="stylesheet">
+    <script src="{$domain.static_url}/other/js/modal.js"></script>
+    <script src="{$domain.static_url}/other/js/loader.js"></script>
+    <script src="{$domain.static_url}/other/js/ajax.js"></script>
+    <script src="{$domain.static_url}/lib/audio/js.js"></script>
+    <script>
+        var TW = (function(c, p){
+            while (c!=p){
+                c = p;
+                p = p.parent;
+            }
+            return c;
+        })(window, window.parent);
+        Voice.url = "{$domain.static_url}/lib/audio/wav/";
+    </script>
     <!-- 样式 -->
     <link href="{$domain.assets_url}/framework/css/style.css?v={$smarty.now}" rel="stylesheet">
     <!-- 脚本 -->

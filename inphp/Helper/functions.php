@@ -35,9 +35,23 @@ function getAssignData(){
  * @param int $error
  * @param string $message
  * @param null $data
+ * @return array
  */
 function response($error = 0, $message = 'success', $data = null){
-    Context::getResponse()->withJson(json($error, $message, $data))->send();
+    $json = json($error, $message, $data);
+    Context::getResponse()->withJson($json)->send();
+    return $json;
+}
+
+/**
+ * 返回一个message对象
+ * @param int $error
+ * @param string $message
+ * @param null $data
+ * @return \Inphp\Service\Object\Message
+ */
+function ajaxMessage($error = 0, $message = 'success', $data = null){
+    return new \Inphp\Service\Object\Message(json($error, $message, $data));
 }
 
 /**
@@ -48,11 +62,17 @@ function response($error = 0, $message = 'success', $data = null){
  * @return array
  */
 function json($error = 0, $message = 'success', $data = null){
-    return [
+    $data = is_array($error) || is_object($error) ? $error : (is_array($message) || is_object($message) ? $message : $data);
+    $message = is_string($error) ? $error : (is_array($message) || is_object($message) ? null : $message);
+    $error = is_array($error) || is_object($error) ? 0 : (is_string($error) ? 1 : ($error==1 || $error==0 ? $error : $error));
+    $json = [
         "error" => $error,
-        "message" => $message,
-        "data"  => $data
+        "message" => $message
     ];
+    if(!empty($data)){
+        $json['data'] = $data;
+    }
+    return $json;
 }
 
 /**
@@ -95,4 +115,82 @@ function globals(string $name, $value = null){
         }
     }
     return $value;
+}
+
+/**
+ * 转化地址
+ * @param $url
+ * @param $moduleName
+ * @return string
+ */
+function url($url, $moduleName){
+    return \Inphp\Modular::parseUrl($url, $moduleName);
+}
+//添加标签
+SmartyTags::add("url", function($params = []){
+    return url($params['url'], $params['module'] ?? null);
+});
+
+/**
+ * 获取POST数据
+ * @param $name
+ * @param $default
+ * @param null $message
+ * @return mixed|null
+ */
+function POST($name, $default = null, $message = null){
+    $value = \Inphp\Service\Http\Request::post($name, $default);
+    if(empty($value) && !is_null($message)){
+        $response = Context::getResponse();
+        return $response->withJson([
+            "error" => 1,
+            "message" => $message
+        ])->send();
+    }
+    return $value;
+}
+
+/**
+ * 获取GET数据
+ * @param $name
+ * @param $default
+ * @param null $message
+ * @return mixed|null
+ */
+function GET($name, $default = null, $message = null){
+    $value = \Inphp\Service\Http\Request::get($name, $default);
+    if(empty($value) && !is_null($message)){
+        $response = Context::getResponse();
+        $response->withJson([
+            "error" => 1,
+            "message" => $message
+        ])->send();
+    }
+    return $value;
+}
+/**
+ * datetime 转 int
+ * @param $datetime
+ * @return false|int
+ */
+function datetime2time(string $datetime) : int{
+    return strtotime($datetime);
+}
+
+/**
+ * int 转 datetime
+ * @param $time
+ * @return false|string
+ */
+function time2datetime(int $time) : string{
+    return date("Y-m-d H:i:s", $time);
+}
+
+/**
+ * 获取客户端IP
+ * @return mixed|string
+ */
+function getIP(){
+    $client = Context::getClient();
+    return $client->ip;
 }

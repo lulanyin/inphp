@@ -260,7 +260,7 @@ class Modular
         if(isset($flip[$moduleName])){
             $moduleName = $flip[$moduleName];
         }
-        $value = "/".$moduleName.(!empty($path) ? ("/".$path) : "")."/".join("/", $url_array);
+        $value = "/".$moduleName.(!empty($path) ? ("/".$path) : "").(!empty($url_array) ? ("/".join("/", $url_array)) : "");
         Cache::set($keyName, $value);
         return $value.(!empty($query) ? "?{$query}" : "");
     }
