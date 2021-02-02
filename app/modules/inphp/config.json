@@ -27,6 +27,18 @@
             {"icon" : "icon list ul", "name" : "账号管理", "url" : "./admin/user/list"},
             {"icon" : "icon history", "name" : "登录日志", "url" : "./admin/user/login-history"}
           ]
+        },
+        {
+          "icon" : "icon archive",
+          "name" : "新闻内容",
+          "weight" : 1,
+          "group" : ["admin"],
+          "list" : [
+            {"icon" : "icon sitemap", "name" : "目录/分类", "url" : "./admin/archive/category"},
+            {"icon" : "icon list ol", "name" : "内容列表", "url" : "./admin/archive/list"},
+            {"icon" : "icon image outline", "name" : "轮播图", "url" : "./admin/archive/focus"},
+            {"icon" : "icon linkify", "name" : "链接", "url" : "./admin/archive/links"}
+          ]
         }
       ]
     }

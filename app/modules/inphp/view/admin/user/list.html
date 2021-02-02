@@ -1,0 +1,181 @@
+{include "INC_header.html" title="账号管理"}
+<div class="page-outlet">
+    <div class="page-header padding">
+        <div class="ui breadcrumb">
+            <div class="section">后台管理</div>
+            <i class="right angle icon divider"></i>
+            <a data-loading href="{url url='./admin/user/list'}" class="section">会员管理</a>
+        </div>
+        <!-- 筛选 -->
+        <div class="ui-table radius margin-top large-height">
+            <div class="thead">
+                <div class="ui-row">
+                    <div class="col col-19">当前查看的账号：官方超管，注册时间：2020-08-28 11:48:06</div>
+                    <div class="col col-1 text-center">状态</div>
+                </div>
+            </div>
+            <div class="tbody">
+                <div class="ui-row">
+                    <div class="col col-2">账号资料</div>
+                    <div class="col col-18"></div>
+                    <div class="col col-1 text-center">正常</div>
+                </div>
+                <div class="ui-row">
+                    <div class="col">
+                        <div class="ui button small primary">编辑资料</div>
+                        <div class="ui button small teal">修改密码</div>
+                        <div class="ui button small red">冻结账号</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 筛选 -->
+        <form class="ui form ui-table radius margin-top large-height">
+            <div class="thead">
+                <div class="ui-row">
+                    <div class="col col-19">
+                        <div class="ui left icon input action">
+                            <input type="text" name="keyword" value="" placeholder="输入用户名、名字、手机号查询">
+                            <i class="icon search"></i>
+                            <button class="ui button teal waves-effect">搜索</button>
+                        </div>
+                    </div>
+                    <div class="col col-2 text-right">
+                        <button type="button" class="ui button primary">添加账号</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tbody">
+                <div class="ui-row">
+                    <div class="col">
+                        <div class="fields">
+                            <div class="field">
+                                <label>每页显示</label>
+                                <div class="ui icon buttons">
+                                    <a data-loading class="ui button" href="javascript:void(0);">15</a>
+                                    <a data-loading class="ui button primary" href="javascript:void(0);">30</a>
+                                    <a data-loading class="ui button" href="javascript:void(0);">50</a>
+                                    <a data-loading class="ui button" href="javascript:void(0);">100</a>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>0行数据，1/0页</label>
+                                <div class="ui buttons">
+                                    <a data-loading class="ui button" href="javascript:void(0);">上一页</a>
+                                    <div class="or"></div>
+                                    <a data-loading class="ui button" href="javascript:void(0);">下一页</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="page-content padding-left padding-right padding-bottom scroll-view-enable">
+        <div class="ui-table large-height radius page-content-main scroll-view primary">
+            <div class="thead">
+                <div class="ui-row">
+                    <div class="col col-7">账号</div>
+                    <div class="col col-2 text-center">推荐人</div>
+                    <div class="col col-2">第三方绑定</div>
+                    <div class="col col-2">类型</div>
+                    <div class="col col-3">注册信息</div>
+                    <div class="col col-1 text-center">状态</div>
+                    <div class="col col-3">操作</div>
+                </div>
+            </div>
+            <div class="tbody selectable">
+                <!-- 需插入一个外层 -->
+                <div class="scroll-view">
+                    {for $step=0 to 100}
+                    <div class="ui-row">
+                        <div class="col col-7">
+                            <div class="ui-media-item radius">
+                                <div class="thumbnail small-image round">
+                                    <img src="{assets url='/images/user.png'}">
+                                </div>
+                                <div class="item-label">
+                                    <div class="title">疯狂原始人</div>
+                                    <div class="desc">
+                                        <div class="ui mini basic button left icon labeled">
+                                            <i class="icon mobile alternate"></i> 19902468001
+                                        </div>
+                                        <div class="ui mini basic button left icon labeled">
+                                            <i class="icon envelope outline"></i> 3646150009@qq.com
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col col-2 text-center">
+                            <div class="small-image round auto-margin">
+                                <img src="{assets url='/images/user.png'}">
+                            </div>
+                            <div class="half-margin-top">神奇的射手</div>
+                        </div>
+                        <div class="col col-2">
+                            <div class="">
+                                <button type="button" class="ui icon button primary"><i class="icon wechat"></i></button>
+                                <button type="button" class="ui icon button"><i class="icon weibo"></i></button>
+                                <button type="button" class="ui icon button"><i class="icon qq"></i></button>
+                            </div>
+                        </div>
+                        <div class="col col-2">
+                            管理员
+                        </div>
+                        <div class="col col-3">
+                            <i class="icon calendar plus outline"></i> 2020-12-15 16:43:25
+                            <div class="half-margin-top">
+                                <i class="icon map marker alternate"></i> 127.0.0.1
+                            </div>
+                        </div>
+                        <div class="col col-1 text-center">
+                            <i class="icon lock red"></i>
+                            <i class="icon lock open green"></i>
+                        </div>
+                        <div class="col col-3">
+                            <button type="button" class="ui button basic">编辑资料</button>
+                            <button type="button" class="ui button basic">修改密码</button>
+                            <div class="half-margin-top">
+                                <button type="button" class="ui button basic">查看结构</button>
+                                <button type="button" class="ui button basic">冻结解冻</button>
+                            </div>
+                        </div>
+                    </div>
+                    {/for}
+                </div>
+            </div>
+            <div class="tfoot">
+                <div class="ui-row">
+                    <div class="col col-17">
+                        <!-- 分页按钮 -->
+                        <div class="ui icon buttons">
+                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle double left"></i></a>
+                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle left"></i></a>
+                            <a class="ui button icon" href="javascript:void(0);">1</a>
+                            <a class="ui button icon" href="javascript:void(0);">2</a>
+                            <a class="ui button icon" href="javascript:void(0);">3</a>
+                            <a class="ui button icon" href="javascript:void(0);">4</a>
+                            <a class="ui button icon" href="javascript:void(0);">5</a>
+                            <span class="ui button icon disabled">...</span>
+                            <a class="ui button icon" href="javascript:void(0);">6</a>
+                            <a class="ui button icon" href="javascript:void(0);">27</a>
+                            <a class="ui button icon" href="javascript:void(0);">29</a>
+                            <a class="ui button icon" href="javascript:void(0);">30</a>
+                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle right"></i></a>
+                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle double right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col col-3">
+                        <div class="ui input right action fluid">
+                            <input type="number">
+                            <button type="button" class="ui button primary right labeled icon">跳转<i class="icon caret right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include "INC_footer.html"}

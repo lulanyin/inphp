@@ -46,13 +46,15 @@
     <script src="{$domain.static_url}/other/js/ajax.js"></script>
     <script src="{$domain.static_url}/lib/audio/js.js"></script>
     <script>
-        var TW = (function(c, p){
+        //顶层窗体
+        let TW = (function(c, p){
             while (c!=p){
                 c = p;
                 p = p.parent;
             }
             return c;
         })(window, window.parent);
+        //提示音
         Voice.url = "{$domain.static_url}/lib/audio/wav/";
     </script>
     <!-- 样式 -->

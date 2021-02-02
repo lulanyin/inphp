@@ -1,4 +1,5 @@
 @import "ui";
+
 html{
   height: 100%;
 }
@@ -9,7 +10,7 @@ body{
   font-size: var(--font-size);
   line-height: normal;
   font-family: 'Segoe UI Light','Segoe WP Light','wf_segoe-ui_light','wf_segoe-ui_normal','Segoe UI','Segoe WP',Helvetica,Tahoma,Arial,sans-serif;
-  background: var(--background-color);
+  background: var(--color-light);
 }
 
 *{
@@ -90,7 +91,7 @@ a, .ui-button{
           display: block;
           padding: 5px;
           color: #666666;
-          text-align: center;
+          text-align: left;
           &:last-child{
             border-radius: 0 0 3px 3px;
           }
@@ -160,12 +161,18 @@ a, .ui-button{
         cursor:pointer;
         line-height:3rem;
         padding:0 15px!important;
-        margin:1px 0;
+        margin:0;
         color:#666!important;
         font-weight:bold;
         i{font-weight:normal;}
         &:hover{background:#f2f6f9;}
-        &.active{background:#f2f6f9;border-left:solid 3px var(--color-primary, #E4393C);color: var(--color-primary, #E4393C)!important;margin-left:-3px;}
+        &.active{
+          background:#f2f6f9;
+          border-left:solid 3px var(--color-primary, #E4393C);
+          color: var(--color-primary, #E4393C)!important;
+          margin-left:-3px;
+          border-radius: 3px 0 0 3px;
+        }
         &:after{content:"\f107";position:absolute;right:15px;font-family:Icons;}
         &.active:after{transform: rotate(180deg);}
       }
@@ -177,8 +184,11 @@ a, .ui-button{
           &.active:after{content:"\f061";position:absolute;right:15px;font-family:Icons;}
         }
         &.active{
-          border-left:solid 3px var(--color-secondary-light, #ffb1aa);
           margin-left:-3px;
+          a{
+            border-left:solid 3px var(--color-secondary-light, #ffb1aa);
+            border-radius: 3px 0 0 3px;
+          }
         }
         .sub-hd{
           font-size: .8rem;color:#999;
@@ -204,6 +214,9 @@ a, .ui-button{
     right:10px;
     bottom:10px;
     border-radius: var(--border-radius-width, 5px);
+    iframe{
+      border-radius: var(--border-radius-width, 5px);
+    }
   }
 }
 
@@ -235,5 +248,47 @@ a, .ui-button{
   }
   .login-form{
     width: 300px;
+  }
+}
+
+//
+.page-outlet{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  .page-header{
+
+  }
+  .page-content{
+    display: flex;
+    flex: 1;
+    flex-flow: row;
+    overflow: auto;
+    .page-content-main{
+      width: 100%;
+    }
+    .scroll-view-enable{
+      overflow: hidden;
+      .page-content-scroll-view{
+        display: flex;
+        flex: 1;
+        overflow: auto;
+      }
+    }
+  }
+  .page-footer{
+
+  }
+}
+
+//field 在 table 中的 margin
+.ui-row{
+  .col .fields:last-child{
+    margin: 0 -0.5em;
   }
 }

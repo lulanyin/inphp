@@ -6,11 +6,12 @@
  */
 namespace app\modules\inphp\http\admin;
 
+use app\modules\inphp\lib\auth\User;
 use Inphp\Modular;
 
 /**
  * 控制台默认入口，需要登录后台的权限
- * @app\modules\inphp\attributes\Auth(uid="uid", redirect="./login", module="inphp")
+ * @app\modules\inphp\attributes\Auth(uid="uid", redirect="./admin/login", module="inphp")
  * Class index
  * @package app\modules\inphp\http\admin
  */
@@ -21,6 +22,13 @@ class index
      * @var int
      */
     public $uid = 0;
+
+    /**
+     * 注入用户资料
+     * @Inphp\Annotation\Processor\Inject(User::class)
+     * @var array
+     */
+    public $user = [];
 
     /**
      * 默认入口
@@ -65,5 +73,13 @@ class index
             }
         }
         assign("menus", $menus);
+        assign('user', $this->user);
+    }
+
+    public function exit(){
+        $user = new User(true);
+        $user->logout();
+        //重定向
+        redirect(url("./admin/login", 'inphp'));
     }
 }

@@ -312,7 +312,15 @@ a.ui-button:hover{
     }
   }
 }
-
+.ui-flex-column{
+  display: flex;
+  flex-flow: column;
+  .flex-container{
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+  }
+}
 //搜索
 .ui-search-bar{
   display: flex;
@@ -1167,12 +1175,13 @@ a.ui-button:hover{
   overflow: auto;
   .col{
     padding: var(--half-padding-width);
+    width: 100%;
     min-height: calc( var(--pixel) * 22 );
-    $number : 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11;
+    $number : 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
     @each $num in $number{
       &.col-#{$num}{
         float: left;
-        width: calc(#{$num} / 12 * 100%);
+        width: calc(#{$num} / 20 * 100%);
       }
     }
   }
@@ -1198,6 +1207,9 @@ a.ui-button:hover{
   .ui-row{
     display: flex;
     flex-flow: row;
+    .col{
+
+    }
   }
   &.border-radius, &.radius{
     .ui-row:first-child{
@@ -1215,6 +1227,124 @@ a.ui-button:hover{
       .col:last-child{
         border-bottom-right-radius: var(--border-radius-width);
       }
+    }
+  }
+}
+.ui-table{
+  --radius-width : 3px;
+  display: flex;
+  flex-flow: column;
+  border: solid 1px #ddd;
+  .ui-row{
+    display: flex;
+    flex-flow: row;
+    .col{
+      word-break: break-word;
+    }
+  }
+  .thead{
+    background: #f9fafb;
+    border-bottom: solid 1px #eee;
+    font-weight: bold;
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+  .tbody{
+    .ui-row{
+      border-bottom: solid 1px #eee;
+      &:nth-child(even){
+        background: #fafafa;
+      }
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+    &.selectable{
+      .ui-row{
+        &:hover{
+          background: #eee;
+        }
+      }
+    }
+  }
+  &.scroll-view{
+    overflow: hidden;
+    .tbody{
+      display: flex;
+      flex-flow: column;
+      flex: 1;
+      overflow: auto;
+    }
+  }
+  .ui-row{
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+  &.radius{
+    border-radius: var(--radius-width);
+    .thead{
+      border-top-left-radius: var(--radius-width);
+      border-top-right-radius: var(--radius-width);
+      &:last-child{
+        border-bottom-left-radius: var(--radius-width);
+        border-bottom-right-radius: var(--radius-width);
+        .ui-row{
+          &:last-child{
+            border-bottom-left-radius: var(--radius-width);
+            border-bottom-right-radius: var(--radius-width);
+          }
+        }
+      }
+      .ui-row{
+        &:first-child{
+          border-top-left-radius: var(--radius-width);
+          border-top-right-radius: var(--radius-width);
+        }
+      }
+    }
+    .tbody, .tfoot{
+      &:last-child{
+        border-bottom-left-radius: var(--radius-width);
+        border-bottom-right-radius: var(--radius-width);
+        .ui-row{
+          &:last-child{
+            border-bottom-left-radius: var(--radius-width);
+            border-bottom-right-radius: var(--radius-width);
+            .col{
+              &:first-child{
+                border-bottom-left-radius: var(--radius-width);
+              }
+              &:last-child{
+                border-bottom-right-radius: var(--radius-width);
+              }
+            }
+          }
+        }
+      }
+    }
+    .tfoot{
+      background: #f9fafb;
+      border-top: solid 1px #eee;
+    }
+  }
+  &.selectable{
+    .ui-row{
+      &:hover{
+        background: #eee;
+      }
+    }
+  }
+  &.large-height{
+    .col{
+      min-height: 28px;
+      padding: var(--padding-width);
+    }
+  }
+  @each $color in $colors{
+    &.#{$color}{
+      border-top: solid 2px var(--color-#{$color});
     }
   }
 }

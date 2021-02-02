@@ -1,26 +1,47 @@
 {include "inc_header.html" title="控制台" body_attr="style='overflow-y:hidden;'"}
+<script type="text/javascript">
+    function logout(){
+        Modal.confirm("确定要退出控制台吗？", function (){
+            TW.location.href = "{url url='./admin/exit' module='inphp'}";
+        });
+    }
+    $(function(){
+        $("#index-menus a").click(function(){
+            let self = $(this);
+            if(!self.hasClass('active')){
+                $.each($("#index-menus a"), function(i, a){
+                    $(a).removeClass('active');
+                });
+                self.addClass('active');
+            }
+            TW.showLoading = true;
+            TW.Loader.loading();
+        });
+    });
+</script>
 <!-- 后台框架 -->
 <div class="console-outlet">
     <!-- 头部 -->
     <div class="console-header ui-flex-item" style="padding-right: 3px;">
         <!-- 名称 -->
-        <div class="console-name start">后台管理<div class="powerby">power by <span class="primary-text">inphp</span></div></div>
+        <div class="console-name start">后台管理<div class="powerby">技术支持：<a href="https://inphp.cc" target="_blank">INPHP</a></div></div>
         <div class="center"></div>
         <!-- 右侧菜单 -->
         <div class="end">
             <div class="user-options">
-                <div class="face">
+                <div class="face" title="{$user.nickname}">
                     <div class="small-image round default-background auto-margin">
                         <img src="{assets url='/images/user.png'}">
                     </div>
                 </div>
                 <div class="options">
-                    <div class="one-line-text text-center margin-start margin-end base-light-text margin-bottom">超级管理员</div>
+                    <div title="{$user.nickname}" class="one-line-text text-center margin-start margin-end base-light-text margin-bottom">{$user.nickname}</div>
                     <a href="javascript:void(0);"><i class="icon pencil"></i> 修改资料</a>
                     <a href="javascript:void(0);"><i class="icon key"></i> 修改密码</a>
-                    <a href="javascript:void(0);"><i class="icon sign out alternate"></i> 退出后台</a>
+                    <a href="javascript:void(0);" onclick="logout()"><i class="icon sign out alternate"></i> 退出后台</a>
                     <div class="split"></div>
-                    <a href="javascript:void(0);"><i class="icon globe"></i> 网站首页</a>
+                    <a href="https://inphp.cc" target="_blank"><i class="icon heart"></i> INPHP</a>
+                    <a href="/" target="_blank"><i class="icon globe"></i> 网站首页</a>
                 </div>
             </div>
         </div>
@@ -51,7 +72,7 @@
         </div>
         <!-- 右边iframe -->
         <div class="console-frame">
-            <iframe name="mainContent" id="mainContent" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
+            <iframe src="{url url='./admin/user/list' module='inphp'}" name="mainContent" id="mainContent" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
         </div>
     </div>
 </div>

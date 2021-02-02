@@ -53,6 +53,14 @@ function response($error = 0, $message = 'success', $data = null){
 function ajaxMessage($error = 0, $message = 'success', $data = null){
     return new \Inphp\Service\Object\Message(json($error, $message, $data));
 }
+function httpMessage($error = 0, $message = 'success', $data = null){
+    return ajaxMessage($error, $message, $data);
+}
+function websocketMessage($event, $error = 0, $message = 'success', $data = null){
+    $json = json($error, $message, $data);
+    $json['event'] = $event;
+    return new \Inphp\Service\Object\Message($json);
+}
 
 /**
  * 返回一组数据，用于JSON响应
@@ -95,6 +103,24 @@ SmartyTags::add("assets", function($params = []){
 });
 
 /**
+ * 文件地址
+ * @param string|null $val
+ * @param string|null $default
+ * @return string|null
+ */
+function attachment(string $val = null, string $default = null){
+    $val = !empty($val) ? $val : $default;
+    $attachment_url = Config::get("domain.attachment_url");
+    $val = !empty($val) ? (strripos($val, "http")===0 ? $val : ($attachment_url.(substr($val,0,1)=="/" ? $val : ("/".$val)))) : null;
+    return $val;
+}
+//添加标签
+SmartyTags::add("attachment", function($params = []){
+    $url = $params['url'] ?? ($params['default'] ?? null);
+    return attachment($url);
+});
+
+/**
  * 设置临时的全局变量
  * @param string $name
  * @param null $value
@@ -118,17 +144,26 @@ function globals(string $name, $value = null){
 }
 
 /**
- * 转化地址
+ * 重定向
  * @param $url
- * @param $moduleName
+ * @param $code
+ */
+function redirect($url, $code = 302){
+    $response = Context::getResponse();
+    $response->redirect($url, $code);
+}
+/**
+ * 转化地址
+ * @param string $url
+ * @param string $moduleName
  * @return string
  */
-function url($url, $moduleName){
+function url(string $url, string $moduleName = 'inphp'){
     return \Inphp\Modular::parseUrl($url, $moduleName);
 }
 //添加标签
 SmartyTags::add("url", function($params = []){
-    return url($params['url'], $params['module'] ?? null);
+    return url($params['url'], $params['module'] ?? 'inphp');
 });
 
 /**
