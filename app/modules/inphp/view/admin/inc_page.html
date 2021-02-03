@@ -1,0 +1,23 @@
+<div class="ui-row">
+    <div class="col col-17">
+        <!-- 分页按钮 -->
+        <div class="ui icon buttons">
+            <a class="ui button icon" v-if="list.page > 2" href="javascript:void(0);" v-on:click="firstPage"><i class="icon angle double left"></i></a>
+            <a class="ui button icon" v-if="list.page > 1" href="javascript:void(0);" v-on:click="prevPage"><i class="icon angle left"></i></a>
+            <a class="ui button icon" :class="list.page == page ? 'primary' : ''" v-if="list.page <=10" v-for="page of list.pages" href="javascript:void(0);" v-on:click="setPage(page)"><% page %></a>
+            <a class="ui button icon" :class="list.page == page ? 'primary' : ''" v-if="list.page > 10" v-for="page of 5" href="javascript:void(0);" v-on:click="setPage(page)"><% page %></a>
+            <span class="ui button icon disabled" v-if="list.pages > 10">...</span>
+            <a class="ui button icon" :class="list.page == list.pages - (5 - page) ? 'primary' : ''" v-if="list.page > 10" v-for="page of 5" href="javascript:void(0);" v-on:click="setPage(list.pages - (5 - page))"><% list.pages - (5 - page) %></a>
+            <a class="ui button icon" v-if="list.page < list.pages" href="javascript:void(0);" v-on:click="nextPage"><i class="icon angle right"></i></a>
+            <a class="ui button icon" v-if="list.page < list.pages - 1" href="javascript:void(0);" v-on:click="lastPage"><i class="icon angle double right"></i></a>
+        </div>
+    </div>
+    <div class="col col-3">
+        <div class="ui input labeled right action fluid">
+            <span class="ui label">转到第</span>
+            <input type="number" v-model="listQueryParams.page" :max="list.pages" min="1">
+            <span class="ui label">页</span>
+            <button type="button" class="ui button primary icon" @click="getList"><i class="icon caret right"></i></button>
+        </div>
+    </div>
+</div>

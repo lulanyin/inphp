@@ -1,0 +1,26 @@
+{include "INC_header.html" title="添加账号"}
+<div class="padding">
+    <form class="ui form" method="post" data-action="user/index/registerSave">
+        <div class="field four wide">
+            <label>选择会员类型</label>
+            <select class="ui dropdown" name="group">
+
+            </select>
+            <!--  -->
+            <input type="hidden" name="form_submit" value="register">
+        </div>
+        <div class="field">
+            <label>姓名/昵称</label>
+            <div class="ui input"><input type="text" name="nickname" maxlength="30" placeholder="填写姓名/昵称"></div>
+        </div>
+        <div class="field">
+            <label>账号</label>
+            <div class="ui input"><input type="text" name="username" maxlength="11" placeholder="填写账号/手机号"></div>
+        </div>
+        <div class="field">
+            <label>登录密码</label>
+            <div class="ui input"><input type="text" name="password" maxlength="16" placeholder="填写密码，6~16位"></div>
+        </div>
+    </form>
+</div>
+{include "INC_footer.html"}

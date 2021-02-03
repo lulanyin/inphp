@@ -25,7 +25,7 @@ class index
 
     /**
      * 注入用户资料
-     * @Inphp\Annotation\Processor\Inject(User::class)
+     * @Inphp\Annotation\Processor\Inject(\app\modules\inphp\lib\auth\User::class)
      * @var array
      */
     public $user = [];

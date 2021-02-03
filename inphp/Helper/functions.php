@@ -177,7 +177,7 @@ function POST($name, $default = null, $message = null){
     $value = \Inphp\Service\Http\Request::post($name, $default);
     if(empty($value) && !is_null($message)){
         $response = Context::getResponse();
-        return $response->withJson([
+        $response->withJson([
             "error" => 1,
             "message" => $message
         ])->send();
@@ -228,4 +228,43 @@ function time2datetime(int $time) : string{
 function getIP(){
     $client = Context::getClient();
     return $client->ip;
+}
+
+/**
+ * @param $code
+ * @return string
+ */
+function errorCode($code){
+    $error = Config::get("public.error");
+    $error = is_array($error) ? $error : [];
+    return $error[$code] ?? "未知";
+}
+
+/**
+ * 转换上传文件的地址
+ * @param $images
+ * @return array|false|mixed|string|null
+ */
+function progressUploadImageUrls($images){
+    if(empty($images)){
+        return null;
+    }
+    $images = is_array($images) ? $images : explode(",", $images);
+    $attachment_url_prefix = Config::get("domain.attachment_url");
+    $attachment_dir = Config::get("define.attachment");
+    $new_urls = [];
+    foreach($images as $image){
+        if(stripos($image, $attachment_url_prefix) === 0){
+            $url = substr($image, strlen($attachment_url_prefix));
+        }else{
+            $url = $image;
+        }
+        if((stripos($url, "http") !== 0 && is_file($attachment_dir.$url)) || stripos($url, "http") === 0){
+            $new_urls[] = $url;
+        }
+    }
+    return count($new_urls) > 1 ? $new_urls : (count($new_urls) == 1 ? $new_urls[0] : null);
+}
+function parseUploadFilesUrl($files){
+    return progressUploadImageUrls($files);
 }

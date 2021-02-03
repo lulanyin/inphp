@@ -1,0 +1,88 @@
+{include "INC_header.html" title="账户编辑"}
+<div class="padding" id="vue_app_outlet">
+    <form class="ui form" method="post" action="{url url='./api/auth/account/save'}">
+        <div class="large-padding text-center">
+            <div class="default-image round auto-margin">
+                <img :src="account.face || face">
+            </div>
+            <div class="half-margin-top medium-text padding-bottom">点击上传头像</div>
+            <input type="hidden" name="uid" value="{$smarty.get.uid}">
+        </div>
+        <div class="field four wide">
+            <label>选择会员类型</label>
+            <select class="ui dropdown" name="group_id" v-model="account.group_id">
+                <option :selected="g.group_id==account.group_id" :value="g.group_id" v-for="g of groups"><% g.group_name %></option>
+            </select>
+        </div>
+        <div class="field">
+            <label>姓名/昵称</label>
+            <div class="ui input fluid"><input type="text" name="nickname" v-model="account.nickname" maxlength="30" placeholder="填写姓名/昵称"></div>
+        </div>
+        <div class="field">
+            <label>用户名</label>
+            <div class="ui input fluid"><input type="text" name="username" v-model="account.username" maxlength="24" placeholder="填写用户名"></div>
+        </div>
+        <div class="field">
+            <label>手机号码</label>
+            <div class="ui input fluid"><input type="number" name="phone" v-model="account.phone" maxlength="11" placeholder="填写手机号"></div>
+        </div>
+    </form>
+</div>
+<!-- 数据驱动 -->
+<script type="text/javascript">
+    let vue_app = new Vue({
+        //节点
+        el : '#vue_app_outlet',
+        //边界符
+        delimiters: ['<%', '%>'],
+        //数据
+        data : function(){
+            return {
+                //默认头像
+                face: "{assets url='/images/user.png'}",
+                //uid
+                uid : "{$smarty.get.uid|default:0}",
+                //账户信息
+                account: {
+                    face: null,
+                    group_id: 2,
+                    nickname: "",
+                    username: "",
+                    phone: ""
+                },
+                //分组列表
+                groups: []
+            }
+        },
+        //生命周期方法
+        mounted : function (){
+            //获取数据
+            this.initData();
+        },
+        //方法
+        methods : {
+            //获取数据
+            initData : function (){
+                let self = this;
+                Ajax.get("{url url='./api/auth/account' module='inphp'}", { uid : this.uid }, response => {
+                    if(response.error){
+                        Modal.alert(response.message);
+                    }else{
+                        //取到数据
+                        self.account = response.data;
+                    }
+                });
+                //获取分组
+                Ajax.get("{url url='./api/account/group/list' module='inphp'}", response => {
+                    if(response.error){
+                        Modal.alert(response.message);
+                    }else{
+                        //取到数据
+                        self.groups = response.data;
+                    }
+                });
+            }
+        }
+    });
+</script>
+{include "INC_footer.html"}

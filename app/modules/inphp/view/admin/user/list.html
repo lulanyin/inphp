@@ -1,13 +1,13 @@
 {include "INC_header.html" title="账号管理"}
-<div class="page-outlet">
+<div class="page-outlet" id="vue_app_outlet">
     <div class="page-header padding">
         <div class="ui breadcrumb">
             <div class="section">后台管理</div>
             <i class="right angle icon divider"></i>
-            <a data-loading href="{url url='./admin/user/list'}" class="section">会员管理</a>
+            <a data-loading href="{url url='./admin/user/list'}" class="section">账号管理</a>
         </div>
         <!-- 筛选 -->
-        <div class="ui-table radius margin-top large-height">
+        <div class="ui-table radius margin-top large-height hidden">
             <div class="thead">
                 <div class="ui-row">
                     <div class="col col-19">当前查看的账号：官方超管，注册时间：2020-08-28 11:48:06</div>
@@ -30,18 +30,19 @@
             </div>
         </div>
         <!-- 筛选 -->
-        <form class="ui form ui-table radius margin-top large-height">
+        <div class="ui form ui-table radius margin-top large-height">
             <div class="thead">
                 <div class="ui-row">
                     <div class="col col-19">
                         <div class="ui left icon input action">
-                            <input type="text" name="keyword" value="" placeholder="输入用户名、名字、手机号查询">
+                            <input type="text" name="keyword" v-model="keyword" placeholder="输入用户名、名字、手机号查询">
                             <i class="icon search"></i>
-                            <button class="ui button teal waves-effect">搜索</button>
+                            <button type="button" class="ui button teal waves-effect" @click="setKeyword">搜索</button>
+                            <button v-if="listQueryParams.keyword != ''" type="button" class="ui button red waves-effect" @click="cleanKeyword">清除</button>
                         </div>
                     </div>
                     <div class="col col-2 text-right">
-                        <button type="button" class="ui button primary">添加账号</button>
+                        <button onclick="Modal.openFormModal('添加账号', '{url url='./admin/user/create' module='inphp'}', 400, 380, window)" type="button" class="ui button primary">添加账号</button>
                     </div>
                 </div>
             </div>
@@ -50,35 +51,52 @@
                     <div class="col">
                         <div class="fields">
                             <div class="field">
-                                <label>每页显示</label>
+                                <label>冻结状态</label>
                                 <div class="ui icon buttons">
-                                    <a data-loading class="ui button" href="javascript:void(0);">15</a>
-                                    <a data-loading class="ui button primary" href="javascript:void(0);">30</a>
-                                    <a data-loading class="ui button" href="javascript:void(0);">50</a>
-                                    <a data-loading class="ui button" href="javascript:void(0);">100</a>
+                                    <button type="button" class="ui button" :class="listQueryParams.frozen=='' ? 'primary' : ''" @click="setListQueryParam({ 'frozen' : ''  })">全部</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.frozen=='1' ? 'primary' : ''" @click="setListQueryParam({ 'frozen' : '1' })">结冻</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.frozen=='0' ? 'primary' : ''" @click="setListQueryParam({ 'frozen' : '0' })">正常</button>
                                 </div>
                             </div>
                             <div class="field">
-                                <label>0行数据，1/0页</label>
+                                <label>账号类型</label>
+                                <div class="ui icon buttons">
+                                    <button type="button" class="ui button" :class="listQueryParams.group_id=='' ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : ''  })">全部</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.group_id==1 ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : 1 })">管理员</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.group_id==2 ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : 2 })">会员</button>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>每页显示</label>
+                                <div class="ui icon buttons">
+                                    <button type="button" class="ui button" :class="listQueryParams.total==15 ? 'primary' : ''" @click="setListQueryParam({ 'total' : 15 })">15</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.total==30 ? 'primary' : ''" @click="setListQueryParam({ 'total' : 30 })">30</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.total==50 ? 'primary' : ''" @click="setListQueryParam({ 'total' : 50 })">50</button>
+                                    <button type="button" class="ui button" :class="listQueryParams.total==100 ? 'primary' : ''" @click="setListQueryParam({ 'total' : 100 })">100</button>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label><% list.rows %>行数据，<% list.page %>/<% list.pages%>页</label>
                                 <div class="ui buttons">
-                                    <a data-loading class="ui button" href="javascript:void(0);">上一页</a>
+                                    <button class="ui button" type="button" @click="prevPage">上一页</button>
                                     <div class="or"></div>
-                                    <a data-loading class="ui button" href="javascript:void(0);">下一页</a>
+                                    <button class="ui button" type="button" @click="nextPage">下一页</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
     <div class="page-content padding-left padding-right padding-bottom scroll-view-enable">
         <div class="ui-table large-height radius page-content-main scroll-view primary">
             <div class="thead">
                 <div class="ui-row">
-                    <div class="col col-7">账号</div>
+                    <div class="col col-1 text-center">编号</div>
+                    <div class="col col-8">账号</div>
                     <div class="col col-2 text-center">推荐人</div>
-                    <div class="col col-2">第三方绑定</div>
+                    <div class="col col-2 hidden">第三方绑定</div>
                     <div class="col col-2">类型</div>
                     <div class="col col-3">注册信息</div>
                     <div class="col col-1 text-center">状态</div>
@@ -87,95 +105,219 @@
             </div>
             <div class="tbody selectable">
                 <!-- 需插入一个外层 -->
-                <div class="scroll-view">
-                    {for $step=0 to 100}
-                    <div class="ui-row">
-                        <div class="col col-7">
+                <div class="scroll-view" :class="list.rows > 0 ? '' : 'hidden'">
+                    <!-- 列表 foreach -->
+                    <div class="ui-row" v-for="item of list.list">
+                        <div class="col col-1 justify-center text-center"><% item.uid %></div>
+                        <div class="col col-8 justify-center">
                             <div class="ui-media-item radius">
                                 <div class="thumbnail small-image round">
-                                    <img src="{assets url='/images/user.png'}">
+                                    <img :src="item.face || face">
                                 </div>
                                 <div class="item-label">
-                                    <div class="title">疯狂原始人</div>
+                                    <div class="title"><% item.nickname %></div>
                                     <div class="desc">
-                                        <div class="ui mini basic button left icon labeled">
-                                            <i class="icon mobile alternate"></i> 19902468001
+                                        <div class="ui mini basic button left icon labeled" v-if="item.phone != null && item.phone != ''">
+                                            <i class="icon mobile alternate"></i> <% item.phone %>
                                         </div>
-                                        <div class="ui mini basic button left icon labeled">
-                                            <i class="icon envelope outline"></i> 3646150009@qq.com
+                                        <div class="ui mini basic button left icon labeled" v-if="item.email != null && item.email != ''">
+                                            <i class="icon envelope outline"></i> <% item.email %>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col col-2 text-center">
-                            <div class="small-image round auto-margin">
-                                <img src="{assets url='/images/user.png'}">
+                        <div class="col col-2 text-center justify-center">
+                            <div class="small-image round auto-margin" v-if="item.parent_uid > 0">
+                                <img :src="item.parent_face || face">
                             </div>
-                            <div class="half-margin-top">神奇的射手</div>
+                            <div class="half-margin-top"><% item.parent_uid > 0 ? item.parent_nickname : '-' %></div>
                         </div>
-                        <div class="col col-2">
+                        <div class="col col-2 justify-center hidden">
                             <div class="">
                                 <button type="button" class="ui icon button primary"><i class="icon wechat"></i></button>
                                 <button type="button" class="ui icon button"><i class="icon weibo"></i></button>
                                 <button type="button" class="ui icon button"><i class="icon qq"></i></button>
                             </div>
                         </div>
-                        <div class="col col-2">
-                            管理员
+                        <div class="col col-2 justify-center">
+                            <% item.group_name %>
                         </div>
-                        <div class="col col-3">
-                            <i class="icon calendar plus outline"></i> 2020-12-15 16:43:25
+                        <div class="col col-3 justify-center">
+                            <div>
+                                <i class="icon calendar plus outline"></i> <% item.register_time %>
+                            </div>
                             <div class="half-margin-top">
-                                <i class="icon map marker alternate"></i> 127.0.0.1
+                                <i class="icon map marker alternate"></i> <% item.register_ip %>
                             </div>
                         </div>
-                        <div class="col col-1 text-center">
-                            <i class="icon lock red"></i>
-                            <i class="icon lock open green"></i>
+                        <div class="col col-1 justify-center">
+                            <div class="text-center">
+                                <i :class="'icon lock' + (item.frozen==1 ? ' red' : ' open green')" :data-tip="item.frozen == 1 ? '该账户已被冻结' : '账户正常使用'"></i>
+                            </div>
                         </div>
-                        <div class="col col-3">
-                            <button type="button" class="ui button basic">编辑资料</button>
-                            <button type="button" class="ui button basic">修改密码</button>
+                        <div class="col col-3 justify-center">
+                            <div>
+                                <button @click="accountEdit(item.uid)" type="button" class="ui button basic"><i class="icon pencil"></i> 编辑资料</button>
+                                <button @click="accountPassword(item.uid)" type="button" class="ui button basic"><i class="icon key"></i> 修改密码</button>
+                            </div>
                             <div class="half-margin-top">
-                                <button type="button" class="ui button basic">查看结构</button>
-                                <button type="button" class="ui button basic">冻结解冻</button>
+                                <button @click="accountTeam(item.uid)" type="button" class="ui button basic"><i class="icon sitemap"></i> 查看结构</button>
+                                <button @click="accountFrozen(item.uid)" v-if="item.frozen == 0" type="button" class="ui button basic"><i class="icon lock"></i> 冻结账号</button>
+                                <button @click="accountFrozen(item.uid)" v-if="item.frozen == 1" type="button" class="ui button basic red"><i class="icon lock open"></i> 解冻账号</button>
                             </div>
                         </div>
                     </div>
-                    {/for}
+                    <!-- -->
+                </div>
+                <!-- 空列表 -->
+                <div class="empty-list justify-center" v-if="list.rows == 0">
+                    <div class="text-center">
+                        <div class="maximum-text medium-text"><i class="icon envelope open outline"></i></div>
+                        <div class="medium-text half-margin-top">没有任何数据可展示</div>
+                        <br>
+                        <a class="ui button basic waves-effect" @click="getList"><i class="icon refresh"></i> 刷新页面</a>
+                    </div>
                 </div>
             </div>
             <div class="tfoot">
-                <div class="ui-row">
-                    <div class="col col-17">
-                        <!-- 分页按钮 -->
-                        <div class="ui icon buttons">
-                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle double left"></i></a>
-                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle left"></i></a>
-                            <a class="ui button icon" href="javascript:void(0);">1</a>
-                            <a class="ui button icon" href="javascript:void(0);">2</a>
-                            <a class="ui button icon" href="javascript:void(0);">3</a>
-                            <a class="ui button icon" href="javascript:void(0);">4</a>
-                            <a class="ui button icon" href="javascript:void(0);">5</a>
-                            <span class="ui button icon disabled">...</span>
-                            <a class="ui button icon" href="javascript:void(0);">6</a>
-                            <a class="ui button icon" href="javascript:void(0);">27</a>
-                            <a class="ui button icon" href="javascript:void(0);">29</a>
-                            <a class="ui button icon" href="javascript:void(0);">30</a>
-                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle right"></i></a>
-                            <a class="ui button icon" href="javascript:void(0);"><i class="icon angle double right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col col-3">
-                        <div class="ui input right action fluid">
-                            <input type="number">
-                            <button type="button" class="ui button primary right labeled icon">跳转<i class="icon caret right"></i></button>
-                        </div>
-                    </div>
-                </div>
+                {include "inc_page.html"}
             </div>
         </div>
     </div>
 </div>
+<!-- 数据驱动 -->
+<script type="text/javascript">
+    let vue_app = new Vue({
+        //节点
+        el : '#vue_app_outlet',
+        //边界符
+        delimiters: ['<%', '%>'],
+        //数据
+        data : function(){
+            return {
+                //默认头像
+                face: "{assets url='/images/user.png'}",
+                //账户信息
+                account: {
+                    face: null,
+                    nickname: "读取中..."
+                },
+                //列表参数
+                listQueryParams: {
+                    parent_uid: '',
+                    keyword: '',
+                    group_id: 0,
+                    frozen: '',
+                    page: 1,
+                    total: 30
+                },
+                //临时关键字
+                keyword: '',
+                //列表数据
+                list: {
+                    rows: 0,
+                    page: 1,
+                    pages: 0,
+                    list: []
+                },
+                //分组列表
+                groups: []
+            }
+        },
+        //生命周期方法
+        mounted : function (){
+            //获取列表
+            this.getList();
+        },
+        //方法
+        methods : {
+            //获取列表
+            getList : function (){
+                let self = this;
+                Ajax.get("{url url='./api/auth/account/list' module='inphp'}", this.listQueryParams, response => {
+                    if(response.error){
+                        Modal.alert(response.message);
+                    }else{
+                        //取到数据
+                        self.list = response.data;
+                    }
+                });
+            },
+            //首页
+            firstPage : function (){
+                let page = parseInt(this.list.page);
+                if(page > 1){
+                    this.listQueryParams.page = 1;
+                    this.getList();
+                }
+            },
+            //上一页
+            prevPage : function (){
+                let page = parseInt(this.list.page);
+                if(page > 1){
+                    this.listQueryParams.page = page - 1;
+                    this.getList();
+                }
+            },
+            //下一页
+            nextPage : function (){
+                let page = parseInt(this.list.page);
+                let pages = parseInt(this.list.pages);
+                if(page < pages){
+                    this.listQueryParams.page = page + 1
+                    this.getList();
+                }
+            },
+            //最后一页
+            lastPage : function (){
+                let page = parseInt(this.list.page);
+                let pages = parseInt(this.list.pages);
+                if(page < pages){
+                    this.listQueryParams.page = pages;
+                    this.getList();
+                }
+            },
+            //设置跳到第几页
+            setPage : function (page){
+                page = isNaN(page) ? -1 : parseInt(page);
+                page = page > 0 ? page : -1;
+                if(page === -1){
+                    Loader.loadError('参数错误');
+                }else if(page !== this.list.page){
+                    this.listQueryParams.page = page;
+                    this.getList();
+                }
+            },
+            //设置参数，重载列表
+            setListQueryParam : function (params){
+                //通过替换key值的方式
+                for(let key in params){
+                    this.listQueryParams[key] = params[key];
+                }
+                this.getList();
+            },
+            //搜索
+            setKeyword: function (){
+                if(this.listQueryParams.keyword != this.keyword){
+                    this.listQueryParams.keyword = this.keyword;
+                    this.getList();
+                }
+            },
+            //清除搜索
+            cleanKeyword: function (){
+                this.keyword = '';
+                this.listQueryParams.keyword = '';
+                this.getList();
+            },
+            //-----------------------
+            //---
+            //-----------------------
+            //账户编辑
+            accountEdit: function (uid){
+                Modal.openFormModal('编辑账户资料', "{url url='./admin/user/edit'}?uid="+uid, 300, 500, window);
+            }
+        }
+    });
+</script>
 {include "INC_footer.html"}

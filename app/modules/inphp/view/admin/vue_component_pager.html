@@ -1,0 +1,22 @@
+<script type="text/javascript">
+    Vue.component('vue-pager', {
+        props : ["page", "pages"],
+        template : `
+            <div class="ui icon buttons">
+                <a class="ui button icon" v-if="list.page > 1" href="javascript:void(0);" v-on:click="firstPage"><i class="icon angle double left"></i></a>
+                <a class="ui button icon" v-if="list.page > 1" href="javascript:void(0);" v-on:click="prevPage"><i class="icon angle left"></i></a>
+                <a class="ui button icon" v-for="page of list.pages" href="javascript:void(0);" v-on:click="setPage(page)">1</a>
+                <span class="ui button icon disabled" v-if="list.pages">...</span>
+                <a class="ui button icon" href="javascript:void(0);">6</a>
+                <a class="ui button icon" href="javascript:void(0);">27</a>
+                <a class="ui button icon" href="javascript:void(0);">29</a>
+                <a class="ui button icon" href="javascript:void(0);">30</a>
+                <a class="ui button icon" v-if="list.page < list.pages" href="javascript:void(0);" v-on:click="nextPage"><i class="icon angle right"></i></a>
+                <a class="ui button icon" v-if="list.page < list.pages" href="javascript:void(0);" v-on:click="lastPage"><i class="icon angle double right"></i></a>
+            </div>
+        `,
+        computed : function (){
+            console.log(this.page, this.pages);
+        }
+    });
+</script>

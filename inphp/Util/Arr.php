@@ -149,9 +149,7 @@ class Arr {
     public static function unsetKey(array $arr, $keys){
         $keys = is_array($keys) ? $keys : [$keys];
         foreach ($keys as $k){
-            if(isset($arr[$k])){
-                unset($arr[$k]);
-            }
+            unset($arr[$k]);
         }
         return $arr;
     }

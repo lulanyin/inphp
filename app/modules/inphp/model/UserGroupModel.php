@@ -20,5 +20,18 @@ namespace app\modules\inphp\model{
     class UserGroupModel extends ModelBase {
         //主表名
         protected $tableName = "user_group";
+
+        const GROUP_ADMIN = 'admin';
+        const GROUP_USER = 'user';
+
+        /**
+         * 检测账号分级
+         * @param $user
+         * @param $group
+         * @return bool
+         */
+        public static function check($user, $group){
+            return $user['group_type'] == $group;
+        }
     }
 }

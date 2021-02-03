@@ -279,7 +279,7 @@ class AuthUser{
      */
     public function getUidInfo($uid){
         $m = new UserModel();
-        $full_data = $m->where("u.uid", $uid)->first();
+        $full_data = $m->startQuery()->where("u.uid", $uid)->first();
         return !empty($full_data) ? $full_data : null;
     }
 
@@ -290,7 +290,7 @@ class AuthUser{
      */
     private function getInfo($where){
         $m = new UserModel();
-        $full_data = $m->where($where)->first();
+        $full_data = $m->startQuery()->where($where)->first();
         return !empty($full_data) ? $full_data : null;
     }
 

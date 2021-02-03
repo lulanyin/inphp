@@ -18,6 +18,8 @@
             TW.Loader.loading();
         });
     });
+    const token = "{$smarty.cookies.token|default:'null'}";
+    TW.token = token;
 </script>
 <!-- 后台框架 -->
 <div class="console-outlet">

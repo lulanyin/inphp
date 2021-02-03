@@ -5,3 +5,7 @@ composer.lock
 vendor/*
 runtime/*
 app/smarty_tags_parser/Compiler/*
+public/assets/third-party/*
+public/assets/lib/*
+public/assets/other/*
+public/assets/public/*
