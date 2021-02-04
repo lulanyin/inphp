@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col col-2 text-right">
-                        <button onclick="Modal.openFormModal('添加账号', '{url url='./admin/user/create' module='inphp'}', 400, 380, window)" type="button" class="ui button primary">添加账号</button>
+                        <button @click="accountCreate" type="button" class="ui button primary">添加账号</button>
                     </div>
                 </div>
             </div>
@@ -62,8 +62,7 @@
                                 <label>账号类型</label>
                                 <div class="ui icon buttons">
                                     <button type="button" class="ui button" :class="listQueryParams.group_id=='' ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : ''  })">全部</button>
-                                    <button type="button" class="ui button" :class="listQueryParams.group_id==1 ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : 1 })">管理员</button>
-                                    <button type="button" class="ui button" :class="listQueryParams.group_id==2 ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : 2 })">会员</button>
+                                    <button v-for="g of groups" type="button" class="ui button" :class="listQueryParams.group_id==g.group_id ? 'primary' : ''" @click="setListQueryParam({ 'group_id' : g.group_id })"><% g.group_name %></button>
                                 </div>
                             </div>
                             <div class="field">
@@ -176,7 +175,8 @@
                         <div class="maximum-text medium-text"><i class="icon envelope open outline"></i></div>
                         <div class="medium-text half-margin-top">没有任何数据可展示</div>
                         <br>
-                        <a class="ui button basic waves-effect" @click="getList"><i class="icon refresh"></i> 刷新页面</a>
+                        <a class="ui button teal waves-effect" @click="getList"><i class="icon refresh"></i> 刷新页面</a>
+                        <button @click="accountCreate" type="button" class="ui button primary"><i class="icon plus square outline"></i> 添加账号</button>
                     </div>
                 </div>
             </div>
@@ -192,7 +192,7 @@
         //节点
         el : '#vue_app_outlet',
         //边界符
-        delimiters: ['<%', '%>'],
+        delimiters : ['<%', '%>'],
         //数据
         data : function(){
             return {
@@ -227,11 +227,27 @@
         },
         //生命周期方法
         mounted : function (){
-            //获取列表
-            this.getList();
+            //初始化数据
+            this.initData();
         },
         //方法
         methods : {
+            //初始化数据
+            initData: function (){
+                //获取分组
+                let self = this;
+                //获取分组
+                Ajax.get("{url url='./api/account/group/list' module='inphp'}", response => {
+                    if(response.error){
+                        Modal.alert(response.message);
+                    }else{
+                        //取到数据
+                        self.groups = response.data;
+                    }
+                });
+                //获取列表
+                this.getList();
+            },
             //获取列表
             getList : function (){
                 let self = this;
@@ -315,7 +331,37 @@
             //-----------------------
             //账户编辑
             accountEdit: function (uid){
-                Modal.openFormModal('编辑账户资料', "{url url='./admin/user/edit'}?uid="+uid, 300, 500, window);
+                let self = this;
+                Modal.openFrameForm({
+                    title : "编辑账户资料",
+                    src : "{url url='./admin/user/edit'}?uid=" + uid,
+                    width: 300,
+                    height: 500,
+                    win: window,
+                    onSubmit: function (json){
+                        if(!json.error){
+                            self.getList();
+                        }
+                    }
+                });
+            },
+            accountCreate: function (){
+                let self = this;
+                Modal.openFrameForm({
+                    title : "编辑账户资料",
+                    src : "{url url='./admin/user/create'}",
+                    width: 300,
+                    height: 500,
+                    win: window,
+                    onSubmit: function (json){
+                        if(!json.error){
+                            self.listQueryParams.page = 1;
+                            self.listQueryParams.frozen = '';
+                            self.listQueryParams.group_id = '';
+                            self.getList();
+                        }
+                    }
+                });
             }
         }
     });

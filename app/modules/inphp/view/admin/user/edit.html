@@ -9,7 +9,7 @@
             <input type="hidden" name="uid" value="{$smarty.get.uid}">
         </div>
         <div class="field four wide">
-            <label>选择会员类型</label>
+            <label>选择账号类型</label>
             <select class="ui dropdown" name="group_id" v-model="account.group_id">
                 <option :selected="g.group_id==account.group_id" :value="g.group_id" v-for="g of groups"><% g.group_name %></option>
             </select>

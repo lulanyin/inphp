@@ -1,4 +1,4 @@
-<div class="ui-row">
+<div class="ui-row" v-if="list.pages > 0">
     <div class="col col-17">
         <!-- 分页按钮 -->
         <div class="ui icon buttons">
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="col col-3">
-        <div class="ui input labeled right action fluid">
+        <div class="ui input labeled right action fluid" v-if="list.pages > 10">
             <span class="ui label">转到第</span>
             <input type="number" v-model="listQueryParams.page" :max="list.pages" min="1">
             <span class="ui label">页</span>
