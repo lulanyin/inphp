@@ -6,10 +6,10 @@
   },
   "http"  : {
     "home"  : "http",
-    "default" : "master",
+    "default" : "admin",
     "list" : {
       "api" : "api",
-      "master" : "admin"
+      "admin" : "admin"
     },
     "view" : "view",
     "view_suffix" : "html",
@@ -24,8 +24,8 @@
           "weight" : 1,
           "group" : ["admin"],
           "list" : [
-            {"icon" : "icon list ul", "name" : "账号管理", "url" : "./admin/user/list"},
-            {"icon" : "icon history", "name" : "登录日志", "url" : "./admin/user/login-history"}
+            {"icon" : "icon list ul", "name" : "账号管理", "url" : "./admin/account/list"},
+            {"icon" : "icon history", "name" : "登录日志", "url" : "./admin/account/login-history"}
           ]
         },
         {

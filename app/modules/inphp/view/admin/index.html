@@ -6,7 +6,7 @@
         });
     }
     $(function(){
-        $("#index-menus a").click(function(){
+        $(document).on("click", "#index-menus a", function(){
             let self = $(this);
             if(!self.hasClass('active')){
                 $.each($("#index-menus a"), function(i, a){
@@ -22,7 +22,7 @@
     TW.token = token;
 </script>
 <!-- 后台框架 -->
-<div class="console-outlet">
+<div class="console-outlet" id="vue_app_outlet">
     <!-- 头部 -->
     <div class="console-header ui-flex-item" style="padding-right: 3px;">
         <!-- 名称 -->
@@ -33,11 +33,11 @@
             <div class="user-options">
                 <div class="face" title="{$user.nickname}">
                     <div class="small-image round default-background auto-margin">
-                        <img src="{assets url='/images/user.png'}">
+                        <img :src="account.face || face">
                     </div>
                 </div>
                 <div class="options">
-                    <div title="{$user.nickname}" class="one-line-text text-center margin-start margin-end base-light-text margin-bottom">{$user.nickname}</div>
+                    <div title="{$user.nickname}" class="one-line-text text-center margin-start margin-end base-light-text margin-bottom"><% account.nickname %></div>
                     <a href="javascript:void(0);"><i class="icon pencil"></i> 修改资料</a>
                     <a href="javascript:void(0);"><i class="icon key"></i> 修改密码</a>
                     <a href="javascript:void(0);" onclick="logout()"><i class="icon sign out alternate"></i> 退出后台</a>
@@ -56,26 +56,90 @@
             <div class="console-menu-scroll-view">
                 <div class="bg">
                     <div class="ui accordion" id="index-menus">
-                        {foreach $menus as $m}
-                        <div class="title waves-effect waves-block{if $m@first} active{/if}"><i class="{$m.icon} icon"></i> {$m.name}</div>
-                        <div class="content{if $m@first} active{/if}">
-                            {foreach $m.list as $l}
-                            {if empty($l.url)}
-                            <div class="sub-hd">{$l.name}</div>
-                            {elseif !isset($l.hidden) || (isset($l.hidden) && !$l.hidden)}
-                            <a class="waves-effect waves-block" href="{$l.url}" target="mainContent"><i class="{$l.icon} icon"></i> {$l.name}</a>
-                            {/if}
-                            {/foreach}
+                        <div class="menu" v-for="(m, index) of menus">
+                            <div class="title waves-effect waves-block" :class="index == 0 ? 'active' : ''"><i :class="m.icon"></i> <% m.name %></div>
+                            <div class="content" :class="index == 0 ? 'active' : ''">
+                                <div class="item" v-for="link of m.list">
+                                    <div class="sub-hd" v-if="link.url==undefined || link.url==null || link.url==''"><% link.name %></div>
+                                    <a v-else class="waves-effect waves-block" :href="link.url" target="mainContent"><i :class="link.icon"></i> <% link.name %></a>
+                                </div>
+                            </div>
                         </div>
-                        {/foreach}
                     </div>
                 </div>
             </div>
         </div>
         <!-- 右边iframe -->
         <div class="console-frame">
-            <iframe src="{url url='./admin/user/list' module='inphp'}" name="mainContent" id="mainContent" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
+            <iframe src="{url url='./admin/account/list'}" name="mainContent" id="mainContent" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
         </div>
     </div>
 </div>
+<!-- 数据驱动 -->
+<script type="text/javascript">
+    let vue_app = new Vue({
+        //节点
+        el : '#vue_app_outlet',
+        //边界符
+        delimiters: ['<%', '%>'],
+        //数据
+        data : function(){
+            return {
+                //默认头像
+                face: "{assets url='/images/user.png'}",
+                //uid
+                uid : "{$smarty.get.uid|default:0}",
+                //账户信息
+                account: {
+                    face: null,
+                    group_id: 2,
+                    nickname: "",
+                    username: "",
+                    phone: ""
+                },
+                //菜单列表
+                menus: []
+            }
+        },
+        //生命周期方法
+        mounted : function (){
+            //获取数据
+            this.initData();
+        },
+        //方法
+        methods : {
+            //获取数据
+            initData : function (){
+                let self = this;
+                //获取后台菜单
+                Ajax.get("{url url='./api/console/menus' module='inphp'}", response => {
+                    if(response.error){
+                        Modal.alert(response.message);
+                    }else{
+                        //取到菜单数据，菜单数据未排序，需自行排序
+                        let menus = response.data;
+                        menus.sort((a, b) => {
+                            //使用weight从小到大排序
+                            return a.weight - b.weight;
+                        });
+                        self.menus = menus;
+                    }
+                });
+                //获取当前登录的账号资料
+                Ajax.get("{url url='./api/account/account' module='inphp'}", response => {
+                    if(response.error){
+                        if(response.error === -1){
+                            window.location.href = "{url url='./admin/login' module='inphp'}";
+                            return;
+                        }
+                        Modal.alert(response.message);
+                    }else{
+                        //取到数据
+                        self.account = response.data;
+                    }
+                });
+            }
+        }
+    });
+</script>
 {include "inc_footer.html"}

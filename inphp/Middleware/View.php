@@ -36,6 +36,10 @@ class View implements IServerOnResponseMiddleware
 
             $status = $response->status;
             $smarty_config = Config::get("private.smarty");
+            if(!defined("SMARTY_TAGS_PARSER")){
+                //添加支持自定义Smarty标签
+                define('SMARTY_TAGS_PARSER', $smarty_config['dir'] ?? RUNTIME."/smarty");
+            }
             $smarty = new \Smarty();
             $smarty->cache_lifetime = $smarty_config['cache_lifetime'];
             $smarty->left_delimiter = $setting['left_delimiter'] ?? "{";

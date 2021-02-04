@@ -158,12 +158,12 @@ function redirect($url, $code = 302){
  * @param string $moduleName
  * @return string
  */
-function url(string $url, string $moduleName = 'inphp'){
+function url(string $url, string $moduleName = null){
     return \Inphp\Modular::parseUrl($url, $moduleName);
 }
 //添加标签
 SmartyTags::add("url", function($params = []){
-    return url($params['url'], $params['module'] ?? 'inphp');
+    return url($params['url'], $params['module'] ?? null);
 });
 
 /**

@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: lulanyin <me@lanyin.lu>
 // +----------------------------------------------------------------------
-namespace app\modules\inphp\http\api\auth;
+namespace app\modules\inphp\http\api\account;
 
 use app\modules\inphp\model\UserGroupModel;
 use app\modules\inphp\model\UserModel;
@@ -237,6 +237,21 @@ class account
         $data['nickname'] = $nickname;
 
         if($admin){
+            //如果修改的是超级管理员
+            $edit = $um->mainQuery()
+                ->where("uid", $uid)
+                ->first();
+            if(empty($edit)){
+                return httpMessage("参数无效");
+            }
+            if($this->uid != $uid) {
+                //除了超管，不可修改其它管理员
+                if($this->user['founder'] == 0){
+                    if ($edit['founder'] == 1 || $edit['group_id'] == 1) {
+                        return httpMessage(errorCode(403));
+                    }
+                }
+            }
             //用户名
             $username = POST("username");
             $username = Str::trim($username);
@@ -264,6 +279,18 @@ class account
                     return httpMessage("手机号码已被使用");
                 }
                 $data['phone'] = $phone;
+            }
+            //
+            $group_id = POST('group_id');
+            $group_id = is_numeric($group_id) && $group_id > 0 ? $group_id : 0;
+            if($group_id > 0){
+                //查询
+                $gm = new UserGroupModel();
+                $row = $gm->mainQuery()->where("group_id", $group_id)->first();
+                if(empty($row)){
+                    return httpMessage("分组参数无效");
+                }
+                $data['group_id'] = $group_id;
             }
         }
 

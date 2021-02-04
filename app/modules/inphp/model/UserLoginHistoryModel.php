@@ -19,9 +19,9 @@ namespace app\modules\inphp\model{
      * Class LoginHistoryModel
      * @package app\model
      */
-    class LoginHistoryModel extends ModelBase {
+    class UserLoginHistoryModel extends ModelBase {
         //主表名
-        protected $tableName = "login_history";
+        protected $tableName = "user_login_history";
         //主表别名
         protected $as = "h";
         //关联查询的表
@@ -59,7 +59,7 @@ namespace app\modules\inphp\model{
          */
         public function getErrorHistory($uid, $seconds = 3600){
             $time = time()-$seconds;
-            $m = new LoginHistoryModel();
+            $m = new UserLoginHistoryModel();
             $rows = $m->mainQuery("h")
                 ->where("h.uid", $uid)
                 ->where("h.clean", 0)
@@ -107,7 +107,7 @@ namespace app\modules\inphp\model{
                 Request::setCookie("token", $token, $time);
             }
             //如果此UID已存在此TOKEN，则直接更新时间即可
-            $m = new LoginHistoryModel();
+            $m = new UserLoginHistoryModel();
             $history = $m->mainQuery()->where("uid", $uid)
                 ->where("token", $token)->first();
             if(!empty($history)){
@@ -145,7 +145,7 @@ namespace app\modules\inphp\model{
                 "token"     => $token ?? 'NULL',
                 "exp_time"  => $token ? time2datetime($now+$time) : time2datetime($now)
             ];
-            $m = new LoginHistoryModel();
+            $m = new UserLoginHistoryModel();
             $m->mainQuery()
                 ->insert($data);
         }

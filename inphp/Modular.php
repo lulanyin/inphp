@@ -215,12 +215,20 @@ class Modular
      * @param $moduleName
      * @return string
      */
-    public static function parseUrl($url, $moduleName){
+    public static function parseUrl($url, $moduleName = null){
+        //添加自动识别
+        if(is_null($moduleName)){
+            $self_module = App::getModule();
+            if(!empty($self_module)){
+                $moduleName = $self_module->id;
+            }
+        }
         $url_query = stripos($url, "?") !== false ? explode("?", $url, 2) : [$url, ""];
         $url = $url_query[0];
         $query = $url_query[1];
         $keyName = "url_".md5($moduleName."_".$url);
-        $value = Cache::get($keyName);
+        $url_cache = self::getConfig("url_cache", false);
+        $value = $url_cache ? Cache::get($keyName) : null;
         if(!empty($value)){
             return $value.(!empty($query) ? "?{$query}" : "");
         }
@@ -261,7 +269,9 @@ class Modular
             $moduleName = $flip[$moduleName];
         }
         $value = "/".$moduleName.(!empty($path) ? ("/".$path) : "").(!empty($url_array) ? ("/".join("/", $url_array)) : "");
-        Cache::set($keyName, $value);
+        if($url_cache){
+            Cache::set($keyName, $value);
+        }
         return $value.(!empty($query) ? "?{$query}" : "");
     }
 

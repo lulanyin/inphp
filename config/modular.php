@@ -28,5 +28,7 @@ return [
             //
 
         ]
-    ]
+    ],
+    //URL缓存
+    'url_cache' => false
 ];

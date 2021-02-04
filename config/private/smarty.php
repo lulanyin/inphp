@@ -14,5 +14,7 @@ return [
     //是否缓存
     "caching"           => false,
     //缓存有效时间
-    "cache_lifetime"    => 3600
+    "cache_lifetime"    => 3600,
+    //缓存根目录
+    "dir"               => RUNTIME."/smarty"
 ];

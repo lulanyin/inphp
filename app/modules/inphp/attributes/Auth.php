@@ -1,7 +1,7 @@
 <?php
 namespace app\modules\inphp\attributes;
 
-use app\modules\inphp\model\LoginHistoryModel;
+use app\modules\inphp\model\UserLoginHistoryModel;
 use Doctrine\Common\Annotations\Annotation\Target;
 use Inphp\Annotation\IAnnotation;
 use Inphp\DB\Cache;
@@ -129,7 +129,7 @@ class Auth implements IAnnotation
                         return;
                     }else{
                         //更新登录记录，以保证能持续有效
-                        $hm = new LoginHistoryModel();
+                        $hm = new UserLoginHistoryModel();
                         //校验TOKEN
                         if(!$hm->verifyToken($token)){
                             Cache::remove($token);

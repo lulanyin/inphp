@@ -4,7 +4,7 @@
         <div class="ui breadcrumb">
             <div class="section">后台管理</div>
             <i class="right angle icon divider"></i>
-            <a data-loading href="{url url='./admin/user/list'}" class="section">账号管理</a>
+            <a data-loading href="{url url='./admin/account/list'}" class="section">账号管理</a>
         </div>
         <!-- 筛选 -->
         <div class="ui-table radius margin-top large-height hidden">
@@ -237,7 +237,7 @@
                 //获取分组
                 let self = this;
                 //获取分组
-                Ajax.get("{url url='./api/account/group/list' module='inphp'}", response => {
+                Ajax.get("{url url='./api/account/group/list'}", response => {
                     if(response.error){
                         Modal.alert(response.message);
                     }else{
@@ -251,7 +251,7 @@
             //获取列表
             getList : function (){
                 let self = this;
-                Ajax.get("{url url='./api/auth/account/list' module='inphp'}", this.listQueryParams, response => {
+                Ajax.get("{url url='./api/account/account/list'}", this.listQueryParams, response => {
                     if(response.error){
                         Modal.alert(response.message);
                     }else{
@@ -334,7 +334,7 @@
                 let self = this;
                 Modal.openFrameForm({
                     title : "编辑账户资料",
-                    src : "{url url='./admin/user/edit'}?uid=" + uid,
+                    src : "{url url='./admin/account/edit'}?uid=" + uid,
                     width: 300,
                     height: 500,
                     win: window,
@@ -349,7 +349,7 @@
                 let self = this;
                 Modal.openFrameForm({
                     title : "编辑账户资料",
-                    src : "{url url='./admin/user/create'}",
+                    src : "{url url='./admin/account/create'}",
                     width: 300,
                     height: 500,
                     win: window,

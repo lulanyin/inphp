@@ -12,7 +12,7 @@ namespace app\modules\inphp\http\api\auth;
 
 use app\modules\inphp\lib\auth\User;
 use app\modules\inphp\lib\sms\SMS;
-use app\modules\inphp\model\LoginHistoryModel;
+use app\modules\inphp\model\UserLoginHistoryModel;
 use app\modules\inphp\model\UserModel;
 use Inphp\Util\Str;
 
@@ -89,7 +89,7 @@ class token
                 {
                     return ajaxMessage("账号已禁止登录");
                 }
-                $m = new LoginHistoryModel();
+                $m = new UserLoginHistoryModel();
                 $token = $m->saveToken($info['uid'], 86400, null, $info['group_type'], $info['level'] ?? -1);
                 //标记短信已被使用
                 SMS::checkedSMS($username, 'login');

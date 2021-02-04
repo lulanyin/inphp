@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\modules\inphp\lib\auth;
 
-use app\modules\inphp\model\LoginHistoryModel;
+use app\modules\inphp\model\UserLoginHistoryModel;
 use app\modules\inphp\model\UserGroupModel;
 use app\modules\inphp\model\UserModel;
 use Inphp\DB\Cache;
@@ -136,7 +136,7 @@ class AuthUser{
         //$tempInfo = $this->getInfo(["u.{$field}", $account]);
         $tempInfo = $m->where("u.{$field}", $account)->first();
         if(!empty($tempInfo)){
-            $hm = new LoginHistoryModel();
+            $hm = new UserLoginHistoryModel();
             //1小时内，如果超过错误次数，则直接禁止登录
             if($hm->getErrorHistory($tempInfo['uid'], 3600) < 5){
                 //验证密码
@@ -259,7 +259,7 @@ class AuthUser{
      */
     public function updateLogin(array $userInfo, $token = null){
         //登录用的数据库
-        $hm = new LoginHistoryModel();
+        $hm = new UserLoginHistoryModel();
         //标记，已登录
         $this->isLogin = true;
         //保存到数据库
@@ -363,7 +363,7 @@ class AuthUser{
             Cache::remove($token);
             Request::dropCookie("token");
             //清除登录
-            $hm = new LoginHistoryModel();
+            $hm = new UserLoginHistoryModel();
             $hm->mainQuery()
                 ->where("exp_time", ">=", time2datetime(time()))
                 ->where("token", $token)
